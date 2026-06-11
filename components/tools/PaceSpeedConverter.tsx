@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { ToolCard } from "../ui/ToolCard";
 import { Result, InputGroup, inputClass } from "../ui/Result";
+import { TimePickerInput } from "../ui/TimePickerInput";
 import { paceToSpeed, speedToPace, formatPace, parsePace } from "@/lib/calculators/pace";
 
 export function PaceSpeedConverter() {
@@ -29,11 +30,10 @@ export function PaceSpeedConverter() {
     <ToolCard title="Pace ↔ Velocidade" icon="⚡">
       <div className="grid grid-cols-2 gap-3">
         <InputGroup label="Pace (min:seg/km)">
-          <input
-            className={inputClass}
-            placeholder="5:30"
+          <TimePickerInput
+            mode="pace"
             value={paceInput}
-            onChange={(e) => handlePaceChange(e.target.value)}
+            onChange={handlePaceChange}
           />
         </InputGroup>
         <InputGroup label="Velocidade (km/h)">

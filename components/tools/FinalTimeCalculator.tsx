@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { ToolCard } from "../ui/ToolCard";
 import { Result, InputGroup, inputClass } from "../ui/Result";
+import { TimePickerInput } from "../ui/TimePickerInput";
 import { parsePace, parseTime, formatTime, formatPace } from "@/lib/calculators/pace";
 
 const DISTANCES = [
@@ -76,21 +77,11 @@ export function FinalTimeCalculator() {
 
       {mode === "time" ? (
         <InputGroup label="Pace (min:seg/km)">
-          <input
-            className={inputClass}
-            placeholder="5:30"
-            value={pace}
-            onChange={(e) => setPace(e.target.value)}
-          />
+          <TimePickerInput mode="pace" value={pace} onChange={setPace} />
         </InputGroup>
       ) : (
-        <InputGroup label="Tempo total (h:mm:ss ou mm:ss)">
-          <input
-            className={inputClass}
-            placeholder="55:00"
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-          />
+        <InputGroup label="Tempo total">
+          <TimePickerInput mode="duration" value={time} onChange={setTime} />
         </InputGroup>
       )}
 

@@ -2,6 +2,7 @@
 import { useState, useMemo } from "react";
 import { ToolCard } from "../ui/ToolCard";
 import { InputGroup, inputClass } from "../ui/Result";
+import { TimePickerInput } from "../ui/TimePickerInput";
 import { parseTime, formatPace } from "@/lib/calculators/pace";
 import { calculateVDOT, getTrainingPaces } from "@/lib/calculators/vdot";
 import { calculateEquivalents } from "@/lib/calculators/tools";
@@ -58,13 +59,8 @@ export function VDOTCalculator() {
         />
       </InputGroup>
 
-      <InputGroup label="Tempo (h:mm:ss ou mm:ss)">
-        <input
-          className={inputClass}
-          placeholder="29:51"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
-        />
+      <InputGroup label="Tempo">
+        <TimePickerInput mode="duration" value={time} onChange={setTime} />
       </InputGroup>
 
       {vdot !== null && (

@@ -2,6 +2,7 @@
 import { useState, useMemo } from "react";
 import { ToolCard } from "../ui/ToolCard";
 import { InputGroup, inputClass } from "../ui/Result";
+import { TimePickerInput } from "../ui/TimePickerInput";
 import { parseTime } from "@/lib/calculators/pace";
 import { calculateGoals } from "@/lib/calculators/tools";
 
@@ -52,12 +53,7 @@ export function GoalPredictor() {
       </InputGroup>
 
       <InputGroup label="Tempo Atual">
-        <input
-          className={inputClass}
-          placeholder="30:00"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
-        />
+        <TimePickerInput mode="duration" value={time} onChange={setTime} />
       </InputGroup>
 
       {goals.length > 0 && (

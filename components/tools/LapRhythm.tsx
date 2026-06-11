@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { ToolCard } from "../ui/ToolCard";
-import { InputGroup, inputClass } from "../ui/Result";
+import { InputGroup } from "../ui/Result";
+import { TimePickerInput } from "../ui/TimePickerInput";
 import { parsePace } from "@/lib/calculators/pace";
 import { calculateLaps } from "@/lib/calculators/tools";
 
@@ -14,12 +15,7 @@ export function LapRhythm() {
   return (
     <ToolCard title="Ritmo por Volta" icon="🔄">
       <InputGroup label="Pace (min:seg/km)">
-        <input
-          className={inputClass}
-          placeholder="5:30"
-          value={pace}
-          onChange={(e) => setPace(e.target.value)}
-        />
+        <TimePickerInput mode="pace" value={pace} onChange={setPace} />
       </InputGroup>
 
       {laps.length > 0 && (
