@@ -105,7 +105,7 @@ export function RacePlanner() {
     variation < -2
       ? "text-green-400"
       : variation > 2
-      ? "text-yellow-400"
+      ? "text-red-400"
       : "text-zinc-300";
 
   return (
