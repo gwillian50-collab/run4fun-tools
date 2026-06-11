@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 const tabs = [
   { href: "/vdot", label: "VDOT", icon: "📊" },
   { href: "/plan", label: "Plano", icon: "📋" },
-  { href: "/", label: "Tools", icon: "🔧" },
+  { href: "/tools", label: "Tools", icon: "🔧" },
 ];
 
 export function BottomNav() {
