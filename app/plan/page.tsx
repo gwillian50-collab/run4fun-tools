@@ -1,9 +1,5 @@
-import { RacePlanner } from "@/components/tools/RacePlanner";
+import { redirect } from "next/navigation";
 
 export default function PlanPage() {
-  return (
-    <div className="max-w-2xl mx-auto px-4 pt-5 flex flex-col gap-4 pb-4">
-      <RacePlanner />
-    </div>
-  );
+  redirect("/prova");
 }
