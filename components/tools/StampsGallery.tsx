@@ -12,6 +12,7 @@ const STAMPS = {
     { file: "runningclubdireita.png" },
     { file: "runningclubesquerda.png" },
     { file: "runningclubmeio.png" },
+    { file: "Logo_Base Preta.png" },
   ],
   branco: [
     { file: "foryoudireitabranco.png" },
@@ -23,6 +24,7 @@ const STAMPS = {
     { file: "runningclubdireitabranco.png" },
     { file: "runningclubesquerdabranco.png" },
     { file: "runningclubmeiobranco.png" },
+    { file: "Logo_Base Branca.png" },
   ],
 };
 
