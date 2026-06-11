@@ -20,15 +20,26 @@ export function LapRhythm() {
 
       {laps.length > 0 && (
         <div className="flex flex-col gap-1.5">
-          {laps.map((lap) => (
-            <div
-              key={lap.label}
-              className="flex justify-between items-center bg-zinc-800/60 rounded-xl px-3 py-2"
-            >
-              <span className="text-xs text-zinc-400">{lap.label}</span>
-              <span className="text-base font-bold tabular-nums text-white">{lap.time}</span>
-            </div>
-          ))}
+          {laps.map((lap) => {
+            const isKm = lap.label === "1 km";
+            return (
+              <div
+                key={lap.label}
+                className={`flex justify-between items-center rounded-xl px-3 py-2 ${
+                  isKm
+                    ? "bg-white/10 border border-white/20"
+                    : "bg-zinc-800/60"
+                }`}
+              >
+                <span className={`text-xs ${isKm ? "text-zinc-200 font-semibold" : "text-zinc-400"}`}>
+                  {lap.label}
+                </span>
+                <span className={`tabular-nums font-bold ${isKm ? "text-xl text-white" : "text-base text-white"}`}>
+                  {lap.time}
+                </span>
+              </div>
+            );
+          })}
         </div>
       )}
     </ToolCard>

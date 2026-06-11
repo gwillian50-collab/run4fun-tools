@@ -28,7 +28,7 @@ export function PaceSpeedConverter() {
 
   return (
     <ToolCard title="Pace ↔ Velocidade" icon="⚡">
-      <div className="grid grid-cols-2 gap-3">
+      <div className="flex flex-col gap-3">
         <InputGroup label="Pace (min:seg/km)">
           <TimePickerInput
             mode="pace"
@@ -36,6 +36,9 @@ export function PaceSpeedConverter() {
             onChange={handlePaceChange}
           />
         </InputGroup>
+        {speed !== null && (
+          <Result label="Velocidade" value={speed.toString()} unit="km/h" highlight />
+        )}
         <InputGroup label="Velocidade (km/h)">
           <input
             className={inputClass}
@@ -44,14 +47,10 @@ export function PaceSpeedConverter() {
             onChange={(e) => handleSpeedChange(e.target.value)}
           />
         </InputGroup>
+        {paceFromSpeed !== null && (
+          <Result label="Pace" value={formatPace(paceFromSpeed)} unit="/km" highlight />
+        )}
       </div>
-
-      {speed !== null && (
-        <Result label="Velocidade" value={speed.toString()} unit="km/h" highlight />
-      )}
-      {paceFromSpeed !== null && (
-        <Result label="Pace" value={formatPace(paceFromSpeed)} unit="/km" highlight />
-      )}
     </ToolCard>
   );
 }
