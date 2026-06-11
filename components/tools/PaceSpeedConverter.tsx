@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { ToolCard } from "../ui/ToolCard";
-import { Result, InputGroup, inputClass } from "../ui/Result";
+import { InputGroup, inputClass } from "../ui/Result";
 import { TimePickerInput } from "../ui/TimePickerInput";
 import { paceToSpeed, speedToPace, formatPace, parsePace } from "@/lib/calculators/pace";
 
@@ -11,20 +11,15 @@ export function PaceSpeedConverter() {
 
   function handlePaceChange(val: string) {
     setPaceInput(val);
-    setSpeedInput("");
+    const ps = parsePace(val);
+    setSpeedInput(ps && ps > 0 ? String(paceToSpeed(ps)) : "");
   }
 
   function handleSpeedChange(val: string) {
     setSpeedInput(val);
-    setPaceInput("");
+    const sp = parseFloat(val.replace(",", "."));
+    setPaceInput(!isNaN(sp) && sp > 0 ? formatPace(speedToPace(sp)) : "");
   }
-
-  const paceSeconds = parsePace(paceInput);
-  const speed = paceSeconds ? paceToSpeed(paceSeconds) : null;
-
-  const speedNum = parseFloat(speedInput.replace(",", "."));
-  const paceFromSpeed =
-    !isNaN(speedNum) && speedNum > 0 ? speedToPace(speedNum) : null;
 
   return (
     <ToolCard title="Pace ↔ Velocidade" icon="⚡">
@@ -36,9 +31,6 @@ export function PaceSpeedConverter() {
             onChange={handlePaceChange}
           />
         </InputGroup>
-        {speed !== null && (
-          <Result label="Velocidade" value={speed.toString()} unit="km/h" highlight />
-        )}
         <InputGroup label="Velocidade (km/h)">
           <input
             className={inputClass}
@@ -47,9 +39,6 @@ export function PaceSpeedConverter() {
             onChange={(e) => handleSpeedChange(e.target.value)}
           />
         </InputGroup>
-        {paceFromSpeed !== null && (
-          <Result label="Pace" value={formatPace(paceFromSpeed)} unit="/km" highlight />
-        )}
       </div>
     </ToolCard>
   );

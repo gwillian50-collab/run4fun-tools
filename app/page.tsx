@@ -1,7 +1,6 @@
 import { PaceSpeedConverter } from "@/components/tools/PaceSpeedConverter";
 import { FinalTimeCalculator } from "@/components/tools/FinalTimeCalculator";
 import { LapRhythm } from "@/components/tools/LapRhythm";
-import { GoalPredictor } from "@/components/tools/GoalPredictor";
 
 export default function Home() {
   return (
@@ -9,7 +8,6 @@ export default function Home() {
       <PaceSpeedConverter />
       <FinalTimeCalculator />
       <LapRhythm />
-      <GoalPredictor />
       <footer className="text-center text-xs text-zinc-700 pt-2 pb-2">
         Run4Fun Tools — Cálculos baseados em Jack Daniels&apos; Running Formula
       </footer>

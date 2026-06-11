@@ -28,7 +28,7 @@ export interface TimePickerInputProps {
   className?: string;
 }
 
-const selectClass =
+export const selectClass =
   "w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-3 text-white focus:border-white outline-none appearance-none text-center text-sm font-bold tabular-nums";
 
 export function TimePickerInput({

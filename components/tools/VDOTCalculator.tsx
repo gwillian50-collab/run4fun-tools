@@ -2,7 +2,7 @@
 import { useState, useMemo } from "react";
 import { ToolCard } from "../ui/ToolCard";
 import { InputGroup } from "../ui/Result";
-import { TimePickerInput } from "../ui/TimePickerInput";
+import { TimePickerInput, selectClass } from "../ui/TimePickerInput";
 import { parseTime, formatPace } from "@/lib/calculators/pace";
 import { calculateVDOT, getTrainingPaces } from "@/lib/calculators/vdot";
 import { calculateEquivalents, RACE_DISTANCES } from "@/lib/calculators/tools";
@@ -27,20 +27,18 @@ export function VDOTCalculator() {
   return (
     <ToolCard title="VDOT & Treinos" icon="📊">
       <InputGroup label="Distância">
-        <div className="grid grid-cols-2 gap-1.5">
-          {RACE_DISTANCES.map((d) => (
-            <button
-              key={d.label}
-              onClick={() => setDistance(String(d.meters))}
-              className={`py-2 px-3 rounded-xl text-xs font-semibold text-left transition-colors ${
-                distance === String(d.meters)
-                  ? "bg-white text-zinc-900"
-                  : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
-              }`}
-            >
-              {d.label}
-            </button>
-          ))}
+        <div>
+          <div className="text-xs text-zinc-500 text-center mb-1">Prova</div>
+          <select
+            className={selectClass}
+            value={distance}
+            onChange={(e) => setDistance(e.target.value)}
+          >
+            <option value="">Selecionar...</option>
+            {RACE_DISTANCES.map((d) => (
+              <option key={d.label} value={String(d.meters)}>{d.label}</option>
+            ))}
+          </select>
         </div>
       </InputGroup>
 
