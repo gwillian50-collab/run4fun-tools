@@ -3,26 +3,26 @@ import { useState, useCallback } from "react";
 
 const STAMPS = {
   preto: [
-    { file: "foryoudireita.png", label: "For You Direita" },
-    { file: "foryouesquerda.png", label: "For You Esquerda" },
-    { file: "foryoumeio.png", label: "For You Meio" },
-    { file: "logopreto.png", label: "Logo" },
-    { file: "r4fpreto.png", label: "R4F" },
-    { file: "run4funpreto.png", label: "Run4Fun" },
-    { file: "runningclubdireita.png", label: "Running Club Dir." },
-    { file: "runningclubesquerda.png", label: "Running Club Esq." },
-    { file: "runningclubmeio.png", label: "Running Club Meio" },
+    { file: "foryoudireita.png" },
+    { file: "foryouesquerda.png" },
+    { file: "foryoumeio.png" },
+    { file: "logopreto.png" },
+    { file: "r4fpreto.png" },
+    { file: "run4funpreto.png" },
+    { file: "runningclubdireita.png" },
+    { file: "runningclubesquerda.png" },
+    { file: "runningclubmeio.png" },
   ],
   branco: [
-    { file: "foryoudireitabranco.png", label: "For You Direita" },
-    { file: "logobranco.png", label: "Logo" },
-    { file: "r4fbranco.png", label: "R4F" },
-    { file: "run4funbranco.png", label: "Run4Fun" },
-    { file: "runforyoudireitabranco.png", label: "Run For You Dir." },
-    { file: "runforyoumeio branco.png", label: "Run For You Meio" },
-    { file: "runningclubdireitabranco.png", label: "Running Club Dir." },
-    { file: "runningclubesquerdabranco.png", label: "Running Club Esq." },
-    { file: "runningclubmeiobranco.png", label: "Running Club Meio" },
+    { file: "foryoudireitabranco.png" },
+    { file: "logobranco.png" },
+    { file: "r4fbranco.png" },
+    { file: "run4funbranco.png" },
+    { file: "runforyoudireitabranco.png" },
+    { file: "runforyoumeio branco.png" },
+    { file: "runningclubdireitabranco.png" },
+    { file: "runningclubesquerdabranco.png" },
+    { file: "runningclubmeiobranco.png" },
   ],
 };
 
@@ -47,57 +47,58 @@ export function StampsGallery() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2">
-        <button
-          onClick={() => setTab("preto")}
-          className={`flex-1 py-2 rounded-xl text-sm font-semibold transition-colors ${
-            tab === "preto" ? "bg-white text-zinc-900" : "bg-zinc-800 text-zinc-400"
-          }`}
-        >
-          Preto
-        </button>
-        <button
-          onClick={() => setTab("branco")}
-          className={`flex-1 py-2 rounded-xl text-sm font-semibold transition-colors ${
-            tab === "branco" ? "bg-white text-zinc-900" : "bg-zinc-800 text-zinc-400"
-          }`}
-        >
-          Branco
-        </button>
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-semibold text-zinc-300 uppercase tracking-widest">Share</span>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setTab("preto")}
+            className={`px-4 py-1.5 rounded-xl text-sm font-semibold transition-colors ${
+              tab === "preto" ? "bg-white text-zinc-900" : "bg-zinc-800 text-zinc-400"
+            }`}
+          >
+            Preto
+          </button>
+          <button
+            onClick={() => setTab("branco")}
+            className={`px-4 py-1.5 rounded-xl text-sm font-semibold transition-colors ${
+              tab === "branco" ? "bg-white text-zinc-900" : "bg-zinc-800 text-zinc-400"
+            }`}
+          >
+            Branco
+          </button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
-        {stamps.map(({ file, label }) => {
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        {stamps.map(({ file }) => {
           const isCopied = copied === file;
           return (
             <button
               key={file}
               onClick={() => handleCopy(file)}
-              className={`flex flex-col items-center gap-2 rounded-2xl p-3 border transition-all active:scale-95 ${
+              className={`rounded-2xl p-3 border transition-all active:scale-95 ${
                 isCopied
                   ? "border-green-500 bg-green-500/10"
                   : "border-zinc-800 bg-zinc-900 hover:border-zinc-600"
               }`}
             >
               <div
-                className={`w-full aspect-square rounded-xl flex items-center justify-center p-3 ${
+                className={`w-full aspect-square rounded-xl flex items-center justify-center p-4 ${
                   isPreto ? "bg-white" : "bg-black border border-zinc-800"
                 }`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`/stamps/${encodeURIComponent(file)}`}
-                  alt={label}
-                  className="w-full h-full object-contain"
+                  alt=""
+                  className={`w-full h-full object-contain transition-opacity ${isCopied ? "opacity-50" : ""}`}
                 />
               </div>
-              <span
-                className={`text-xs font-medium text-center leading-tight ${
-                  isCopied ? "text-green-400" : "text-zinc-400"
-                }`}
-              >
-                {isCopied ? "Copiado!" : label}
-              </span>
+              {isCopied && (
+                <span className="block text-xs font-medium text-center text-green-400 mt-2">
+                  Copiado!
+                </span>
+              )}
             </button>
           );
         })}
