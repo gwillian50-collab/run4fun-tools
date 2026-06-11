@@ -12,7 +12,7 @@ const STAMPS = {
     { file: "runningclubdireita.png" },
     { file: "runningclubesquerda.png" },
     { file: "runningclubmeio.png" },
-    { file: "Logo_Base Branca.png" },
+    { file: "simplespreto.png" },
   ],
   branco: [
     { file: "foryoudireitabranco.png" },
@@ -24,17 +24,22 @@ const STAMPS = {
     { file: "runningclubdireitabranco.png" },
     { file: "runningclubesquerdabranco.png" },
     { file: "runningclubmeiobranco.png" },
-    { file: "Logo_Base Preta.png" },
+    { file: "simplesbranco.png" },
   ],
+};
+
+const FOLDER: Record<"preto" | "branco", string> = {
+  preto: "fundobranco",
+  branco: "fundopreto",
 };
 
 export function StampsGallery() {
   const [tab, setTab] = useState<"preto" | "branco">("preto");
   const [copied, setCopied] = useState<string | null>(null);
 
-  const handleCopy = useCallback(async (file: string) => {
+  const handleCopy = useCallback(async (folder: string, file: string) => {
     try {
-      const res = await fetch(`/stamps/${encodeURIComponent(file)}`);
+      const res = await fetch(`/stamps/${folder}/${encodeURIComponent(file)}`);
       const blob = await res.blob();
       await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
       setCopied(file);
@@ -45,6 +50,7 @@ export function StampsGallery() {
   }, []);
 
   const stamps = STAMPS[tab];
+  const folder = FOLDER[tab];
   const isPreto = tab === "preto";
 
   return (
@@ -77,7 +83,7 @@ export function StampsGallery() {
           return (
             <button
               key={file}
-              onClick={() => handleCopy(file)}
+              onClick={() => handleCopy(folder, file)}
               className={`rounded-2xl p-3 border transition-all active:scale-95 ${
                 isCopied
                   ? "border-green-500 bg-green-500/10"
@@ -91,7 +97,7 @@ export function StampsGallery() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={`/stamps/${encodeURIComponent(file)}`}
+                  src={`/stamps/${folder}/${encodeURIComponent(file)}`}
                   alt=""
                   className={`w-full h-full object-contain transition-opacity ${isCopied ? "opacity-50" : ""}`}
                 />
