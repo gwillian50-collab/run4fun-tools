@@ -60,41 +60,29 @@ export interface TrainingPaces {
   repetition: number;
 }
 
-// Training paces based on VDOT using Daniels' intensity percentages
+// Inverse of velocityToVO2: find velocity (m/min) for a target VO2 via binary search
+function vo2ToVelocity(targetVO2: number): number {
+  let lo = 1.0;
+  let hi = 1500.0;
+  for (let i = 0; i < 64; i++) {
+    const mid = (lo + hi) / 2;
+    if (velocityToVO2(mid) < targetVO2) lo = mid;
+    else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+
+// Training paces based on VDOT using Daniels' %VO2max intensities
 export function getTrainingPaces(vdot: number): TrainingPaces {
-  // Easy: 59-74% vVO2max (approx 65-78% HRmax)
-  // Using intensity multipliers from Daniels' tables
-  const easyMinVelocity = vdot * 0.59 * 14.49; // m/min at lower easy
-  const easyMaxVelocity = vdot * 0.74 * 14.49;
-  
-  // These are approximate using VO2 to velocity conversion
-  // Better: use the pace predictions from known percentages
-  const easyMinPace = velocityToPaceSeconds(easyMaxVelocity); // faster end
-  const easyMaxPace = velocityToPaceSeconds(easyMinVelocity); // slower end
-
-  // Marathon pace: ~75-84% vVO2max
-  const mVelocity = vdot * 0.80 * 14.49;
-  const marathon = velocityToPaceSeconds(mVelocity);
-
-  // Threshold: ~86-88% vVO2max (roughly 1hr race pace)
-  // Best computed from ~60min race equivalent
-  const tVelocity = vdot * 0.88 * 14.49;
-  const threshold = velocityToPaceSeconds(tVelocity);
-
-  // Interval: ~97-100% vVO2max
-  const iVelocity = vdot * 0.975 * 14.49;
-  const interval = velocityToPaceSeconds(iVelocity);
-
-  // Repetition: ~105-120% vVO2max (faster than race pace)
-  const rVelocity = vdot * 1.10 * 14.49;
-  const repetition = velocityToPaceSeconds(rVelocity);
-
   return {
-    easy: { min: easyMinPace, max: easyMaxPace },
-    marathon,
-    threshold,
-    interval,
-    repetition,
+    easy: {
+      min: velocityToPaceSeconds(vo2ToVelocity(vdot * 0.74)), // faster end (74% VO2max)
+      max: velocityToPaceSeconds(vo2ToVelocity(vdot * 0.59)), // slower end (59% VO2max)
+    },
+    marathon: velocityToPaceSeconds(vo2ToVelocity(vdot * 0.80)),
+    threshold: velocityToPaceSeconds(vo2ToVelocity(vdot * 0.88)),
+    interval: velocityToPaceSeconds(vo2ToVelocity(vdot * 0.975)),
+    repetition: velocityToPaceSeconds(vo2ToVelocity(vdot * 1.10)),
   };
 }
 

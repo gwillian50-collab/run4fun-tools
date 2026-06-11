@@ -5,12 +5,6 @@ import { Result, InputGroup, inputClass } from "../ui/Result";
 import { TimePickerInput } from "../ui/TimePickerInput";
 import { parsePace, parseTime, formatTime, formatPace } from "@/lib/calculators/pace";
 
-const DISTANCES = [
-  { label: "5 km", value: 5 },
-  { label: "10 km", value: 10 },
-  { label: "21.1 km", value: 21.097 },
-  { label: "42.2 km", value: 42.195 },
-];
 
 export function FinalTimeCalculator() {
   const [distance, setDistance] = useState("");
@@ -52,21 +46,6 @@ export function FinalTimeCalculator() {
       </div>
 
       <InputGroup label="Distância (km)">
-        <div className="flex gap-2 flex-wrap">
-          {DISTANCES.map((d) => (
-            <button
-              key={d.value}
-              onClick={() => setDistance(d.value.toString())}
-              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
-                parseFloat(distance) === d.value
-                  ? "bg-lime-500/20 text-lime-400 border border-lime-500/40"
-                  : "bg-zinc-800 text-zinc-400 hover:text-zinc-200"
-              }`}
-            >
-              {d.label}
-            </button>
-          ))}
-        </div>
         <input
           className={inputClass}
           placeholder="ex: 10"
