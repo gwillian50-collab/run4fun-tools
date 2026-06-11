@@ -27,27 +27,33 @@ function calculateSplits(
   const partial = Math.round((distanceKm - fullKms) * 1000) / 1000;
   const totalSegments = fullKms + (partial > 0.001 ? 1 : 0);
 
-  const splits: Split[] = [];
-  let cumTime = 0;
-
+  // First pass: raw paces via linear interpolation
+  const raw: { pace: number; seg: number }[] = [];
   for (let i = 0; i < totalSegments; i++) {
     const isLast = i === totalSegments - 1;
-    const segmentKm = isLast && partial > 0.001 ? partial : 1;
-    const kmEnd = i + segmentKm;
-
-    // position 0.5 when single segment so multiplier = 1 (avg pace)
+    const seg = isLast && partial > 0.001 ? partial : 1;
     const position = totalSegments > 1 ? i / (totalSegments - 1) : 0.5;
-    const paceMultiplier = 1 + (variation / 100) * (2 * position - 1);
-    const pace = avgPace * paceMultiplier;
+    const multiplier = 1 + (variation / 100) * (2 * position - 1);
+    raw.push({ pace: avgPace * multiplier, seg });
+  }
 
-    cumTime += pace * segmentKm;
+  // Normalize so sum(pace * seg) = targetSeconds exactly
+  const rawTotal = raw.reduce((s, { pace, seg }) => s + pace * seg, 0);
+  const scale = targetSeconds / rawTotal;
 
-    const kmRounded = Math.round(kmEnd * 1000) / 1000;
+  const splits: Split[] = [];
+  let cumTime = 0;
+  for (let i = 0; i < totalSegments; i++) {
+    const { pace: rawPace, seg } = raw[i];
+    const pace = rawPace * scale;
+    const isLast = i === totalSegments - 1;
+    cumTime += pace * seg;
+    const kmEnd = Math.round((isLast ? distanceKm : i + 1) * 1000) / 1000;
     splits.push({
-      km: kmRounded,
+      km: kmEnd,
       pace: Math.round(pace),
       cumTime: Math.round(cumTime),
-      isCheckpoint: Number.isInteger(kmRounded) && kmRounded % 5 === 0 && !isLast,
+      isCheckpoint: Number.isInteger(kmEnd) && kmEnd % 5 === 0 && !isLast,
       isFinish: isLast,
     });
   }
@@ -94,7 +100,7 @@ export function RacePlanner() {
   const lastPace = splits.length > 0 ? splits[splits.length - 1].pace : null;
 
   const strategyLabel =
-    variation < -2 ? `Negativa (${variation}%)` : variation > 2 ? `Positiva (+${variation}%)` : "Uniforme";
+    variation < -2 ? "Negativa" : variation > 2 ? "Positiva" : "Uniforme";
   const strategyColor =
     variation < -2
       ? "text-green-400"
