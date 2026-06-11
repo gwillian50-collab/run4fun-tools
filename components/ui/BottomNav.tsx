@@ -6,6 +6,7 @@ const tabs = [
   { href: "/vdot", label: "VDOT", icon: "📊" },
   { href: "/prova", label: "Prova", icon: "🏅" },
   { href: "/tools", label: "Tools", icon: "🔧" },
+  { href: "/stamps", label: "Stamps", icon: "🖼️" },
 ];
 
 export function BottomNav() {
