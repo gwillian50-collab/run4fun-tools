@@ -11,6 +11,11 @@ export const metadata: Metadata = {
     description: "Ferramentas gratuitas para corredores: pace, VDOT, equivalências e mais.",
     type: "website",
   },
+  appleWebApp: {
+    capable: true,
+    title: "Run4Fun",
+    statusBarStyle: "black-translucent",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
