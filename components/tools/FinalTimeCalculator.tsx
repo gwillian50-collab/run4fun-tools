@@ -39,13 +39,13 @@ export function FinalTimeCalculator() {
       <div className="flex gap-2">
         <button
           onClick={() => setMode("time")}
-          className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${mode === "time" ? "bg-orange-500 text-white" : "bg-zinc-800 text-zinc-400"}`}
+          className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${mode === "time" ? "bg-lime-500 text-white" : "bg-zinc-800 text-zinc-400"}`}
         >
           Calcular Tempo
         </button>
         <button
           onClick={() => setMode("pace")}
-          className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${mode === "pace" ? "bg-orange-500 text-white" : "bg-zinc-800 text-zinc-400"}`}
+          className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${mode === "pace" ? "bg-lime-500 text-white" : "bg-zinc-800 text-zinc-400"}`}
         >
           Calcular Pace
         </button>
@@ -59,7 +59,7 @@ export function FinalTimeCalculator() {
               onClick={() => setDistance(d.value.toString())}
               className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                 parseFloat(distance) === d.value
-                  ? "bg-orange-500/20 text-orange-400 border border-orange-500/40"
+                  ? "bg-lime-500/20 text-lime-400 border border-lime-500/40"
                   : "bg-zinc-800 text-zinc-400 hover:text-zinc-200"
               }`}
             >

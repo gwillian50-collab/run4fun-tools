@@ -36,7 +36,7 @@ export function GoalPredictor() {
               onClick={() => setDistance(d.value.toString())}
               className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                 distance === d.value.toString()
-                  ? "bg-orange-500/20 text-orange-400 border border-orange-500/40"
+                  ? "bg-lime-500/20 text-lime-400 border border-lime-500/40"
                   : "bg-zinc-800 text-zinc-400 hover:text-zinc-200"
               }`}
             >
@@ -67,12 +67,12 @@ export function GoalPredictor() {
               key={g.label}
               className={`flex justify-between items-center rounded-xl px-3 py-2 ${
                 i === 0
-                  ? "bg-orange-500/10 border border-orange-500/30"
+                  ? "bg-lime-500/10 border border-lime-500/30"
                   : "bg-zinc-800/60"
               }`}
             >
-              <span className={`text-sm font-semibold ${i === 0 ? "text-orange-400" : "text-white"}`}>{g.label}</span>
-              <span className={`text-sm font-bold tabular-nums ${i === 0 ? "text-orange-300" : "text-zinc-300"}`}>{g.pace}</span>
+              <span className={`text-sm font-semibold ${i === 0 ? "text-lime-400" : "text-white"}`}>{g.label}</span>
+              <span className={`text-sm font-bold tabular-nums ${i === 0 ? "text-lime-300" : "text-zinc-300"}`}>{g.pace}</span>
             </div>
           ))}
         </div>

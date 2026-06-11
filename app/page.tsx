@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PaceSpeedConverter } from "@/components/tools/PaceSpeedConverter";
 import { FinalTimeCalculator } from "@/components/tools/FinalTimeCalculator";
 import { LapRhythm } from "@/components/tools/LapRhythm";
@@ -8,10 +9,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white pb-12">
       <header className="sticky top-0 z-10 bg-zinc-950/90 backdrop-blur border-b border-zinc-800/60 px-4 py-3">
-        <div className="max-w-2xl mx-auto flex items-center gap-2">
-          <span className="text-orange-500 text-xl">🏃</span>
-          <span className="font-black text-lg tracking-tight text-white">Run<span className="text-orange-500">4Fun</span> Tools</span>
-          <span className="ml-auto text-xs text-zinc-600 font-medium">Para corredores</span>
+        <div className="max-w-2xl mx-auto flex justify-center">
+          <Image src="/logo.png" alt="Run4Fun Tools" width={56} height={56} priority />
         </div>
       </header>
 

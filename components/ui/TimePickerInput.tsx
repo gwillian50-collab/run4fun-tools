@@ -79,7 +79,7 @@ function PickerColumn({
     <div className="flex flex-col items-center flex-1 min-w-0">
       <div className="relative w-full">
         <div
-          className="pointer-events-none absolute inset-x-0 z-10 border-t border-b border-orange-500/40 bg-orange-500/10"
+          className="pointer-events-none absolute inset-x-0 z-10 border-t border-b border-lime-500/40 bg-lime-500/10"
           style={{ top: H, height: H }}
         />
         <div
