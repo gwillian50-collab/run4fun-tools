@@ -144,17 +144,15 @@ export function RacePlanner() {
       {distanceKm && targetSeconds && (
         <>
           <div className="flex flex-col gap-2">
-            <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-500">← Negativa</span>
+            <div className="flex justify-center">
               <span className={`text-xs font-semibold ${strategyColor}`}>
                 {strategyLabel}
               </span>
-              <span className="text-xs text-zinc-500">Positiva →</span>
             </div>
             <input
               type="range"
-              min={-30}
-              max={30}
+              min={-25}
+              max={25}
               step={1}
               value={variation}
               onChange={(e) => setVariation(Number(e.target.value))}
@@ -193,7 +191,7 @@ export function RacePlanner() {
                   Acumulado
                 </span>
               </div>
-              <div className="max-h-72 overflow-y-auto flex flex-col gap-0.5 pr-0.5">
+              <div className="flex flex-col gap-0.5">
                 {splits.map((s) => {
                   const highlight = s.isCheckpoint || s.isFinish;
                   return (
