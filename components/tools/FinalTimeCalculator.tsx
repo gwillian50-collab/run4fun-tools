@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useLocalStorage } from "@/lib/useLocalStorage";
 import { ToolCard } from "../ui/ToolCard";
 import { Result, InputGroup, inputClass } from "../ui/Result";
 import { TimePickerInput } from "../ui/TimePickerInput";
@@ -7,10 +7,10 @@ import { parsePace, parseTime, formatTime, formatPace } from "@/lib/calculators/
 
 
 export function FinalTimeCalculator() {
-  const [distance, setDistance] = useState("");
-  const [pace, setPace] = useState("");
-  const [time, setTime] = useState("");
-  const [mode, setMode] = useState<"time" | "pace">("time"); // what to calculate
+  const [distance, setDistance] = useLocalStorage("r4f_ft_distance", "");
+  const [pace, setPace] = useLocalStorage("r4f_ft_pace", "");
+  const [time, setTime] = useLocalStorage("r4f_ft_time", "");
+  const [mode, setMode] = useLocalStorage<"time" | "pace">("r4f_ft_mode", "time");
 
   const distNum = parseFloat(distance.replace(",", "."));
 

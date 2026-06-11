@@ -1,5 +1,6 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
+import { useLocalStorage } from "@/lib/useLocalStorage";
 import { ToolCard } from "../ui/ToolCard";
 import { InputGroup } from "../ui/Result";
 import { TimePickerInput, selectClass } from "../ui/TimePickerInput";
@@ -9,9 +10,9 @@ import { calculateEquivalents, RACE_DISTANCES } from "@/lib/calculators/tools";
 
 
 export function VDOTCalculator() {
-  const [distance, setDistance] = useState("");
-  const [time, setTime] = useState("");
-  const [tab, setTab] = useState<"equiv" | "paces">("equiv");
+  const [distance, setDistance] = useLocalStorage("r4f_vdot_distance", "");
+  const [time, setTime] = useLocalStorage("r4f_vdot_time", "");
+  const [tab, setTab] = useLocalStorage<"equiv" | "paces">("r4f_vdot_tab", "equiv");
 
   const timeSeconds = parseTime(time);
   const distNum = parseFloat(distance);

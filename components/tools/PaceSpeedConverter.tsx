@@ -1,13 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useLocalStorage } from "@/lib/useLocalStorage";
 import { ToolCard } from "../ui/ToolCard";
 import { InputGroup, inputClass } from "../ui/Result";
 import { TimePickerInput } from "../ui/TimePickerInput";
 import { paceToSpeed, speedToPace, formatPace, parsePace } from "@/lib/calculators/pace";
 
 export function PaceSpeedConverter() {
-  const [paceInput, setPaceInput] = useState("");
-  const [speedInput, setSpeedInput] = useState("");
+  const [paceInput, setPaceInput] = useLocalStorage("r4f_ps_pace", "");
+  const [speedInput, setSpeedInput] = useLocalStorage("r4f_ps_speed", "");
 
   function handlePaceChange(val: string) {
     setPaceInput(val);

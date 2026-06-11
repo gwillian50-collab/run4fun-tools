@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useLocalStorage } from "@/lib/useLocalStorage";
 import { ToolCard } from "../ui/ToolCard";
 import { InputGroup } from "../ui/Result";
 import { TimePickerInput } from "../ui/TimePickerInput";
@@ -7,7 +7,7 @@ import { parsePace } from "@/lib/calculators/pace";
 import { calculateLaps } from "@/lib/calculators/tools";
 
 export function LapRhythm() {
-  const [pace, setPace] = useState("");
+  const [pace, setPace] = useLocalStorage("r4f_lap_pace", "");
 
   const paceSeconds = parsePace(pace);
   const laps = paceSeconds ? calculateLaps(paceSeconds) : [];
