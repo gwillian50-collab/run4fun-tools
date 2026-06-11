@@ -45,12 +45,12 @@ export function GoalPredictor() {
               key={g.label}
               className={`flex justify-between items-center rounded-xl px-3 py-2 ${
                 i === 0
-                  ? "bg-lime-500/10 border border-lime-500/30"
+                  ? "bg-white/10 border border-white/20"
                   : "bg-zinc-800/60"
               }`}
             >
-              <span className={`text-sm font-semibold ${i === 0 ? "text-lime-400" : "text-white"}`}>{g.label}</span>
-              <span className={`text-sm font-bold tabular-nums ${i === 0 ? "text-lime-300" : "text-zinc-300"}`}>{g.pace}</span>
+              <span className={`text-sm font-semibold ${i === 0 ? "text-white" : "text-white"}`}>{g.label}</span>
+              <span className={`text-sm font-bold tabular-nums ${i === 0 ? "text-zinc-200" : "text-zinc-300"}`}>{g.pace}</span>
             </div>
           ))}
         </div>

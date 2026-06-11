@@ -7,9 +7,9 @@ interface ResultProps {
 
 export function Result({ label, value, unit, highlight = false }: ResultProps) {
   return (
-    <div className={`flex items-baseline justify-between py-2 px-3 rounded-xl ${highlight ? "bg-lime-500/10 border border-lime-500/30" : "bg-zinc-800/60"}`}>
+    <div className={`flex items-baseline justify-between py-2 px-3 rounded-xl ${highlight ? "bg-white/10 border border-white/20" : "bg-zinc-800/60"}`}>
       <span className="text-xs text-zinc-400">{label}</span>
-      <span className={`text-xl font-bold tabular-nums ${highlight ? "text-lime-400" : "text-white"}`}>
+      <span className={`text-xl font-bold tabular-nums ${highlight ? "text-white" : "text-white"}`}>
         {value}
         {unit && <span className="text-sm font-normal text-zinc-400 ml-1">{unit}</span>}
       </span>
@@ -32,4 +32,4 @@ export function InputGroup({ label, children }: InputGroupProps) {
 }
 
 export const inputClass =
-  "bg-zinc-800 border border-zinc-700 text-white rounded-xl px-3 py-2.5 text-sm w-full focus:outline-none focus:border-lime-500 focus:ring-1 focus:ring-lime-500/40 placeholder-zinc-600 tabular-nums";
+  "bg-zinc-800 border border-zinc-700 text-white rounded-xl px-3 py-2.5 text-sm w-full focus:outline-none focus:border-white focus:ring-1 focus:ring-white/20 placeholder-zinc-600 tabular-nums";

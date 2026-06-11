@@ -33,13 +33,13 @@ export function FinalTimeCalculator() {
       <div className="flex gap-2">
         <button
           onClick={() => setMode("time")}
-          className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${mode === "time" ? "bg-lime-500 text-white" : "bg-zinc-800 text-zinc-400"}`}
+          className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${mode === "time" ? "bg-white text-zinc-900" : "bg-zinc-800 text-zinc-400"}`}
         >
           Calcular Tempo
         </button>
         <button
           onClick={() => setMode("pace")}
-          className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${mode === "pace" ? "bg-lime-500 text-white" : "bg-zinc-800 text-zinc-400"}`}
+          className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${mode === "pace" ? "bg-white text-zinc-900" : "bg-zinc-800 text-zinc-400"}`}
         >
           Calcular Pace
         </button>

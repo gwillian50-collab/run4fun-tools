@@ -41,21 +41,21 @@ export function VDOTCalculator() {
 
       {vdot !== null && (
         <>
-          <div className="flex items-center justify-between bg-lime-500/10 border border-lime-500/30 rounded-xl px-4 py-3">
-            <span className="text-sm text-lime-300 font-medium">VDOT</span>
-            <span className="text-3xl font-black text-lime-400 tabular-nums">{vdot.toFixed(1)}</span>
+          <div className="flex items-center justify-between bg-white/10 border border-white/20 rounded-xl px-4 py-3">
+            <span className="text-sm text-zinc-200 font-medium">VDOT</span>
+            <span className="text-3xl font-black text-white tabular-nums">{vdot.toFixed(1)}</span>
           </div>
 
           <div className="flex gap-2">
             <button
               onClick={() => setTab("equiv")}
-              className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${tab === "equiv" ? "bg-lime-500 text-white" : "bg-zinc-800 text-zinc-400"}`}
+              className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${tab === "equiv" ? "bg-white text-zinc-900" : "bg-zinc-800 text-zinc-400"}`}
             >
               Equivalências
             </button>
             <button
               onClick={() => setTab("paces")}
-              className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${tab === "paces" ? "bg-lime-500 text-white" : "bg-zinc-800 text-zinc-400"}`}
+              className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${tab === "paces" ? "bg-white text-zinc-900" : "bg-zinc-800 text-zinc-400"}`}
             >
               Ritmos de Treino
             </button>
@@ -84,7 +84,7 @@ export function VDOTCalculator() {
                 { label: "Easy (E)", sub: "Corrida confortável", value: `${formatPace(paces.easy.min)} – ${formatPace(paces.easy.max)}/km`, color: "text-green-400" },
                 { label: "Maratona (M)", sub: "Pace de maratona", value: `${formatPace(paces.marathon)}/km`, color: "text-blue-400" },
                 { label: "Threshold (T)", sub: "Ritmo de limiar", value: `${formatPace(paces.threshold)}/km`, color: "text-yellow-400" },
-                { label: "Interval (I)", sub: "Ritmo de intervalo", value: `${formatPace(paces.interval)}/km`, color: "text-lime-400" },
+                { label: "Interval (I)", sub: "Ritmo de intervalo", value: `${formatPace(paces.interval)}/km`, color: "text-white" },
                 { label: "Repetition (R)", sub: "Pace de repetição", value: `${formatPace(paces.repetition)}/km`, color: "text-red-400" },
               ].map((p) => (
                 <div key={p.label} className="flex items-center justify-between bg-zinc-800/60 rounded-xl px-3 py-2.5">
