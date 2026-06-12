@@ -22,18 +22,18 @@ export function InfoModal({ isOpen, onClose, title, children }: InfoModalProps) 
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center px-4">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-lg bg-zinc-900 border border-zinc-800 rounded-t-3xl sm:rounded-2xl p-5 flex flex-col gap-4 max-h-[80vh] overflow-y-auto">
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative w-full max-w-lg bg-surface border border-rim rounded-t-2xl sm:rounded-xl p-5 flex flex-col gap-4 max-h-[80vh] overflow-y-auto">
         <div className="flex items-center justify-between">
-          <span className="text-sm font-semibold text-zinc-200">{title}</span>
+          <span className="text-[13px] font-medium text-content">{title}</span>
           <button
             onClick={onClose}
-            className="w-7 h-7 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors flex items-center justify-center text-sm"
+            className="w-7 h-7 rounded-lg bg-raised hover:bg-subtle text-muted hover:text-content transition-colors duration-150 flex items-center justify-center text-[11px]"
           >
             ✕
           </button>
         </div>
-        <div className="flex flex-col gap-4 text-sm text-zinc-400 leading-relaxed">
+        <div className="flex flex-col gap-4 text-[13px] text-muted leading-relaxed border-t border-rim pt-4">
           {children}
         </div>
       </div>

@@ -20,7 +20,7 @@ export function GoalPredictor() {
   }, [timeSeconds, distNum]);
 
   return (
-    <ToolCard title="Preditor de Metas" icon="🎯">
+    <ToolCard title="Preditor de Metas">
       <InputGroup label="Distância">
         <input
           className={inputClass}
@@ -35,22 +35,28 @@ export function GoalPredictor() {
       </InputGroup>
 
       {goals.length > 0 && (
-        <div className="flex flex-col gap-1.5">
-          <div className="grid grid-cols-2 px-3 pb-0.5">
-            <span className="text-xs text-zinc-600">Meta</span>
-            <span className="text-xs text-zinc-600 text-right">Pace necessário</span>
+        <div className="flex flex-col">
+          <div className="grid grid-cols-2 px-3 pb-2">
+            <span className="text-[10px] font-medium text-faint uppercase tracking-[0.06em]">Meta</span>
+            <span className="text-[10px] font-medium text-faint uppercase tracking-[0.06em] text-right">Pace necessário</span>
           </div>
-          {goals.map((g, i) => (
-            <div
-              key={g.label}
-              className={`flex justify-between items-center rounded-xl px-3 py-2 ${
-                i === 0 ? "bg-white/10 border border-white/20" : "bg-zinc-800/60"
-              }`}
-            >
-              <span className="text-sm font-semibold text-white">{g.label}</span>
-              <span className={`text-sm font-bold tabular-nums ${i === 0 ? "text-zinc-200" : "text-zinc-300"}`}>{g.pace}</span>
-            </div>
-          ))}
+          <div className="flex flex-col">
+            {goals.map((g, i) => (
+              <div
+                key={g.label}
+                className={`flex justify-between items-center px-3 py-2 rounded-md ${
+                  i === 0 ? "bg-raised border border-rim-strong my-0.5" : ""
+                }`}
+              >
+                <span className={`${i === 0 ? "text-[13px] font-medium text-content" : "text-[11px] text-muted"}`}>
+                  {g.label}
+                </span>
+                <span className={`font-mono tabular-nums font-medium ${i === 0 ? "text-[13px] text-accent" : "text-[11px] text-muted"}`}>
+                  {g.pace}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </ToolCard>

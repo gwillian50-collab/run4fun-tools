@@ -2,10 +2,10 @@
 import { useState, useEffect, useCallback, type KeyboardEvent, type ChangeEvent } from "react";
 
 export const selectClass =
-  "w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-3 text-white focus:border-white outline-none appearance-none text-center text-sm font-bold tabular-nums";
+  "w-full bg-raised border border-rim rounded-md px-3 py-3 text-content focus:border-accent focus:shadow-[0_0_0_3px_rgba(232,240,32,0.08)] outline-none appearance-none text-center text-sm font-medium tabular-nums transition-[border-color,box-shadow] duration-150";
 
 const inputCls =
-  "w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-3 text-white focus:border-white outline-none text-center text-sm font-bold tabular-nums placeholder-zinc-600";
+  "w-full bg-raised border border-rim rounded-md px-3 py-3 text-content focus:border-accent focus:shadow-[0_0_0_3px_rgba(232,240,32,0.08)] outline-none text-center text-sm font-medium font-mono tabular-nums placeholder-faint transition-[border-color,box-shadow] duration-150";
 
 function onlyDigits(s: string): string {
   return s.replace(/\D/g, "");

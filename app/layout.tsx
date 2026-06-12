@@ -1,7 +1,15 @@
 import type { Metadata, Viewport } from "next";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
 import { BottomNav } from "@/components/ui/BottomNav";
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  weight: ["400", "500"],
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -27,12 +35,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className="dark">
-      <body
-        className="bg-black text-white min-h-screen"
-        style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}
-      >
-        <header className="sticky top-0 z-10 bg-black/90 backdrop-blur border-b border-zinc-800/60 px-4 py-3">
+    <html lang="pt-BR" className={`dark ${mono.variable}`}>
+      <body className="bg-base text-content min-h-screen">
+        <header className="sticky top-0 z-10 bg-base/90 backdrop-blur border-b border-rim px-4 py-3">
           <div className="max-w-2xl mx-auto flex justify-center">
             <Image src="/logo.png" alt="Run4Fun Tools" width={56} height={56} priority />
           </div>

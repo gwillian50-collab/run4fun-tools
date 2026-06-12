@@ -8,7 +8,7 @@ export default function ToolsPage() {
       <PaceSpeedConverter />
       <FinalTimeCalculator />
       <LapRhythm />
-      <footer className="text-center text-xs text-zinc-700 pt-2 pb-2">
+      <footer className="text-center text-[11px] text-faint pt-2 pb-2">
         Run4Fun Tools — Cálculos baseados em Jack Daniels&apos; Running Formula
       </footer>
     </div>

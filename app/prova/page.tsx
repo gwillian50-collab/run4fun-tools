@@ -10,47 +10,47 @@ export default function ProvaPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 pt-5 flex flex-col gap-4 pb-24">
-      <p className="text-sm text-zinc-500 leading-relaxed px-1">
+      <p className="text-[13px] text-muted leading-relaxed px-1">
         Escolha a distância e seu tempo objetivo para gerar os splits de cada quilômetro. Use o slider para simular estratégias de ritmo negativo, uniforme ou positivo.
       </p>
       <RacePlanner action={<InfoButton onClick={open} label="Por que planejar a prova?" />} />
 
       <ExpandableSection title="Por que planejar a prova?" detailsRef={ref}>
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-semibold text-zinc-300 uppercase tracking-widest">A importância do planejamento</span>
+          <span className="text-[11px] font-medium text-content uppercase tracking-[0.07em]">A importância do planejamento</span>
           <p>Correr sem um plano de ritmo é um dos erros mais comuns em provas. Sair mais rápido do que o previsto nos primeiros quilômetros, impulsionado pela adrenalina da largada, pode comprometer toda a segunda metade. Planejar significa chegar na largada sabendo exatamente como distribuir o esforço.</p>
         </div>
 
         <div className="flex flex-col gap-4">
-          <span className="text-xs font-semibold text-zinc-300 uppercase tracking-widest">Split negativo vs. positivo</span>
+          <span className="text-[11px] font-medium text-content uppercase tracking-[0.07em]">Split negativo vs. positivo</span>
 
-          <div className="rounded-xl border border-green-500/20 bg-green-500/5 p-3 flex flex-col gap-2">
+          <div className="rounded-lg border border-success/20 bg-success/5 p-3 flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-green-400 uppercase tracking-widest">Split Negativo</span>
-              <span className="text-xs text-zinc-500">segunda metade mais rápida</span>
+              <span className="text-[11px] font-medium text-success uppercase tracking-[0.07em]">Split Negativo</span>
+              <span className="text-[11px] text-faint">segunda metade mais rápida</span>
             </div>
-            <p className="text-zinc-400">Você começa conservador e acelera progressivamente. A energia é melhor gerenciada, o glicogênio não é queimado precocemente e você termina forte.</p>
+            <p>Você começa conservador e acelera progressivamente. A energia é melhor gerenciada, o glicogênio não é queimado precocemente e você termina forte.</p>
             <div className="flex flex-col gap-0.5 mt-1">
-              <span className="text-xs text-green-400 font-medium">Prós: maior controle, melhor aproveitamento das reservas, menos risco de "quebrar".</span>
-              <span className="text-xs text-zinc-500">Contras: exige disciplina para segurar o ritmo no início, especialmente em largadas animadas.</span>
+              <span className="text-[11px] text-success">Prós: maior controle, melhor aproveitamento das reservas, menos risco de &quot;quebrar&quot;.</span>
+              <span className="text-[11px] text-faint">Contras: exige disciplina para segurar o ritmo no início, especialmente em largadas animadas.</span>
             </div>
           </div>
 
-          <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-3 flex flex-col gap-2">
+          <div className="rounded-lg border border-danger/20 bg-danger/5 p-3 flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-red-400 uppercase tracking-widest">Split Positivo</span>
-              <span className="text-xs text-zinc-500">segunda metade mais lenta</span>
+              <span className="text-[11px] font-medium text-danger uppercase tracking-[0.07em]">Split Positivo</span>
+              <span className="text-[11px] text-faint">segunda metade mais lenta</span>
             </div>
-            <p className="text-zinc-400">Você sai em ritmo acima do previsto e desacelera ao longo da prova. É o padrão mais comum entre iniciantes e pode levar ao temido "muro" nos quilômetros finais.</p>
+            <p>Você sai em ritmo acima do previsto e desacelera ao longo da prova. É o padrão mais comum entre iniciantes e pode levar ao temido &quot;muro&quot; nos quilômetros finais.</p>
             <div className="flex flex-col gap-0.5 mt-1">
-              <span className="text-xs text-zinc-500">Prós: sensação inicial de facilidade, pode funcionar em distâncias curtas com boa base de treino.</span>
-              <span className="text-xs text-red-400 font-medium">Contras: alto risco de colapso no final, desgaste muscular prematuro e tempo final comprometido.</span>
+              <span className="text-[11px] text-faint">Prós: sensação inicial de facilidade, pode funcionar em distâncias curtas com boa base de treino.</span>
+              <span className="text-[11px] text-danger">Contras: alto risco de colapso no final, desgaste muscular prematuro e tempo final comprometido.</span>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-semibold text-zinc-300 uppercase tracking-widest">Como usar o planejador</span>
+          <span className="text-[11px] font-medium text-content uppercase tracking-[0.07em]">Como usar o planejador</span>
           <p>Escolha sua distância e tempo objetivo, depois ajuste o slider de variação. Deslizar para a esquerda simula um split negativo — começo mais lento, aceleração progressiva. Para a direita, um split positivo. Use a tabela de splits como referência no GPS durante a prova.</p>
         </div>
       </ExpandableSection>

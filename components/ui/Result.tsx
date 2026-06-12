@@ -7,11 +7,17 @@ interface ResultProps {
 
 export function Result({ label, value, unit, highlight = false }: ResultProps) {
   return (
-    <div className={`flex items-baseline justify-between py-2 px-3 rounded-xl ${highlight ? "bg-white/10 border border-white/20" : "bg-zinc-800/60"}`}>
-      <span className="text-xs text-zinc-400">{label}</span>
-      <span className="text-xl font-bold tabular-nums text-white">
+    <div className={`flex items-baseline justify-between py-3 px-3 rounded-lg ${
+      highlight
+        ? "bg-accent-dim border border-accent-border"
+        : "bg-raised"
+    }`}>
+      <span className="text-[11px] font-medium text-muted uppercase tracking-[0.06em]">{label}</span>
+      <span className={`text-xl font-medium font-mono tabular-nums leading-none ${
+        highlight ? "text-accent" : "text-content"
+      }`}>
         {value}
-        {unit && <span className="text-sm font-normal text-zinc-400 ml-1">{unit}</span>}
+        {unit && <span className="text-sm font-normal text-muted ml-1">{unit}</span>}
       </span>
     </div>
   );
@@ -24,12 +30,12 @@ interface InputGroupProps {
 
 export function InputGroup({ label, children }: InputGroupProps) {
   return (
-    <div className="flex flex-col gap-1">
-      <label className="text-xs text-zinc-500 font-medium uppercase tracking-wider">{label}</label>
+    <div className="flex flex-col gap-1.5">
+      <label className="text-[11px] font-medium text-muted uppercase tracking-[0.06em]">{label}</label>
       {children}
     </div>
   );
 }
 
 export const inputClass =
-  "bg-zinc-800 border border-zinc-700 text-white rounded-xl px-3 py-2.5 text-sm w-full focus:outline-none focus:border-white focus:ring-1 focus:ring-white/20 placeholder-zinc-600 tabular-nums";
+  "bg-raised border border-rim text-content rounded-md px-3 py-2.5 text-sm font-medium w-full outline-none focus:border-accent focus:shadow-[0_0_0_3px_rgba(232,240,32,0.08)] placeholder-faint tabular-nums transition-[border-color,box-shadow] duration-150";

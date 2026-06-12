@@ -10,13 +10,13 @@ export function ExternalLinkCard({ href, title, description }: ExternalLinkCardP
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center justify-between rounded-2xl border border-zinc-800 bg-zinc-900 hover:border-zinc-600 active:scale-95 transition-all px-4 py-4"
+      className="flex items-center justify-between rounded-xl border border-rim bg-surface hover:border-rim-strong hover:bg-subtle active:scale-[0.98] transition-all duration-150 px-4 py-4"
     >
       <div className="flex flex-col gap-0.5">
-        <span className="text-sm font-semibold text-white">{title}</span>
-        <span className="text-xs text-zinc-500">{description}</span>
+        <span className="text-[13px] font-medium text-content">{title}</span>
+        <span className="text-[11px] text-muted">{description}</span>
       </div>
-      <span className="text-zinc-400 text-lg">→</span>
+      <span className="text-muted text-sm ml-3">→</span>
     </a>
   );
 }

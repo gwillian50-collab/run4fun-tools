@@ -27,8 +27,8 @@ export function VDOTCalculator({ action }: { action?: ReactNode }) {
     return calculateVDOT(distNum, timeSeconds);
   }, [timeSeconds, distNum]);
 
-  const equivalents = useMemo(() => vdot ? calculateEquivalents(vdot) : [], [vdot]);
-  const paces = useMemo(() => vdot ? getTrainingPaces(vdot) : null, [vdot]);
+  const equivalents = useMemo(() => (vdot ? calculateEquivalents(vdot) : []), [vdot]);
+  const paces = useMemo(() => (vdot ? getTrainingPaces(vdot) : null), [vdot]);
 
   const sortedEquivalents = useMemo(() => [
     ...equivalents.filter((e) => PRIMARY_LABELS.has(e.label)),
@@ -36,30 +36,30 @@ export function VDOTCalculator({ action }: { action?: ReactNode }) {
   ], [equivalents]);
 
   return (
-    <ToolCard title="VDOT & Treinos" icon="📊" action={action}>
+    <ToolCard title="VDOT & Treinos" action={action}>
       <InputGroup label="Distância">
-        <div>
-          <div className="text-xs text-zinc-500 text-center mb-1">Prova</div>
-          <select
-            className={selectClass}
-            value={distance}
-            onChange={(e) => setDistance(e.target.value)}
-          >
-            <option value="">Selecionar...</option>
-            {RACE_DISTANCES.map((d) => (
-              <option key={d.label} value={String(d.meters)}>{d.label}</option>
-            ))}
-          </select>
-        </div>
+        <select
+          className={selectClass}
+          value={distance}
+          onChange={(e) => setDistance(e.target.value)}
+        >
+          <option value="">Selecionar...</option>
+          {RACE_DISTANCES.map((d) => (
+            <option key={d.label} value={String(d.meters)}>{d.label}</option>
+          ))}
+        </select>
       </InputGroup>
 
       <InputGroup label="Tempo">
         <TimePickerInput mode="duration" value={time} onChange={setTime} />
       </InputGroup>
 
-      <div className="flex items-center justify-between bg-white/10 border border-white/20 rounded-xl px-4 py-3">
-        <span className="text-sm text-zinc-200 font-medium">VDOT</span>
-        <span className="text-3xl font-black tabular-nums text-white transition-all duration-300">
+      <div className="flex items-center justify-between bg-raised border border-rim-strong rounded-lg px-4 py-3.5">
+        <span className="text-[11px] font-medium text-muted uppercase tracking-[0.08em]">VDOT</span>
+        <span
+          className="font-mono font-medium tabular-nums leading-none transition-all duration-300"
+          style={{ fontSize: "32px", letterSpacing: "-0.02em", color: vdot !== null ? "var(--color-accent)" : "var(--color-faint)" }}
+        >
           {vdot !== null ? vdot.toFixed(1) : "—"}
         </span>
       </div>
@@ -72,45 +72,54 @@ export function VDOTCalculator({ action }: { action?: ReactNode }) {
           </div>
 
           {tab === "equiv" && (
-            <div className="flex flex-col gap-1">
-              <div className="grid grid-cols-3 px-3 pb-1">
-                <span className="text-xs text-zinc-600">Distância</span>
-                <span className="text-xs text-zinc-600 text-center">Tempo</span>
-                <span className="text-xs text-zinc-600 text-right">Pace</span>
+            <div className="flex flex-col">
+              <div className="grid grid-cols-3 px-3 pb-2">
+                <span className="text-[10px] font-medium text-faint uppercase tracking-[0.06em]">Distância</span>
+                <span className="text-[10px] font-medium text-faint uppercase tracking-[0.06em] text-center">Tempo</span>
+                <span className="text-[10px] font-medium text-faint uppercase tracking-[0.06em] text-right">Pace</span>
               </div>
-              {sortedEquivalents.map((eq, i) => {
-                const isPrimary = PRIMARY_LABELS.has(eq.label);
-                const prevIsPrimary = i > 0 && PRIMARY_LABELS.has(sortedEquivalents[i - 1].label);
-                const showDivider = !isPrimary && prevIsPrimary;
-                return (
-                  <div key={eq.label}>
-                    {showDivider && <div className="border-t border-zinc-700/50 my-1" />}
-                    <div className={`grid grid-cols-3 items-center rounded-xl px-3 py-2 ${isPrimary ? "bg-zinc-800/80" : "bg-zinc-800/40"}`}>
-                      <span className={`text-xs font-medium ${isPrimary ? "text-zinc-100" : "text-zinc-500"}`}>{eq.label}</span>
-                      <span className={`tabular-nums font-bold text-center ${isPrimary ? "text-base text-white" : "text-sm text-zinc-400"}`}>{eq.time}</span>
-                      <span className={`text-xs text-right ${isPrimary ? "text-zinc-300" : "text-zinc-600"}`}>{eq.pace}</span>
+              <div className="flex flex-col">
+                {sortedEquivalents.map((eq, i) => {
+                  const isPrimary = PRIMARY_LABELS.has(eq.label);
+                  const prevIsPrimary = i > 0 && PRIMARY_LABELS.has(sortedEquivalents[i - 1].label);
+                  return (
+                    <div key={eq.label}>
+                      {!isPrimary && prevIsPrimary && (
+                        <div className="border-t border-rim my-1" />
+                      )}
+                      <div className={`grid grid-cols-3 items-center px-3 py-2 rounded-md ${isPrimary ? "bg-raised" : ""}`}>
+                        <span className={`${isPrimary ? "text-[13px] font-medium text-content" : "text-[11px] text-faint"}`}>
+                          {eq.label}
+                        </span>
+                        <span className={`font-mono tabular-nums text-center ${isPrimary ? "text-[15px] font-medium text-content" : "text-[13px] text-muted"}`}>
+                          {eq.time}
+                        </span>
+                        <span className={`font-mono tabular-nums text-right ${isPrimary ? "text-[11px] text-muted" : "text-[11px] text-faint"}`}>
+                          {eq.pace}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           )}
 
           {tab === "paces" && paces && (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1.5">
               {[
-                { label: "Easy (E)", sub: "Corrida confortável", value: `${formatPace(paces.easy.min)} – ${formatPace(paces.easy.max)}/km`, color: "text-green-400" },
+                { label: "Easy (E)", sub: "Corrida confortável", value: `${formatPace(paces.easy.min)} – ${formatPace(paces.easy.max)}/km`, color: "text-success" },
                 { label: "Maratona (M)", sub: "Pace de maratona", value: `${formatPace(paces.marathon)}/km`, color: "text-blue-400" },
-                { label: "Threshold (T)", sub: "Ritmo de limiar", value: `${formatPace(paces.threshold)}/km`, color: "text-yellow-400" },
-                { label: "Interval (I)", sub: "Ritmo de intervalo", value: `${formatPace(paces.interval)}/km`, color: "text-white" },
-                { label: "Repetition (R)", sub: "Pace de repetição", value: `${formatPace(paces.repetition)}/km`, color: "text-red-400" },
+                { label: "Threshold (T)", sub: "Ritmo de limiar", value: `${formatPace(paces.threshold)}/km`, color: "text-warning" },
+                { label: "Interval (I)", sub: "Ritmo de intervalo", value: `${formatPace(paces.interval)}/km`, color: "text-content" },
+                { label: "Repetition (R)", sub: "Pace de repetição", value: `${formatPace(paces.repetition)}/km`, color: "text-danger" },
               ].map((p) => (
-                <div key={p.label} className="flex items-center justify-between bg-zinc-800/60 rounded-xl px-3 py-2.5">
+                <div key={p.label} className="flex items-center justify-between bg-raised rounded-md px-3 py-2.5">
                   <div>
-                    <div className="text-sm font-semibold text-white">{p.label}</div>
-                    <div className="text-xs text-zinc-500">{p.sub}</div>
+                    <div className="text-[13px] font-medium text-content">{p.label}</div>
+                    <div className="text-[11px] text-faint">{p.sub}</div>
                   </div>
-                  <span className={`text-base font-bold tabular-nums ${p.color}`}>{p.value}</span>
+                  <span className={`text-[13px] font-medium font-mono tabular-nums ${p.color}`}>{p.value}</span>
                 </div>
               ))}
             </div>

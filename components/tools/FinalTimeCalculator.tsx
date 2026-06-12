@@ -25,7 +25,7 @@ export function FinalTimeCalculator() {
 
   return (
     <>
-      <ToolCard title="Tempo & Pace" icon="🏁" action={<InfoButton onClick={() => setModalOpen(true)} label="Como funciona o calculador de tempo?" />}>
+      <ToolCard title="Tempo & Pace" action={<InfoButton onClick={() => setModalOpen(true)} label="Como funciona o calculador de tempo?" />}>
         <div className="flex gap-2">
           <TabButton label="Calcular Tempo" active={mode === "time"} onClick={() => setMode("time")} />
           <TabButton label="Calcular Pace" active={mode === "pace"} onClick={() => setMode("pace")} />
@@ -56,17 +56,17 @@ export function FinalTimeCalculator() {
 
       <InfoModal isOpen={modalOpen} onClose={() => setModalOpen(false)} title="Tempo & Pace">
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-semibold text-zinc-300 uppercase tracking-widest">Calcular Tempo Final</span>
+          <span className="text-[11px] font-medium text-content uppercase tracking-[0.06em]">Calcular Tempo Final</span>
           <p>Informe a distância e o pace que pretende manter. A calculadora multiplica o pace pela distância e retorna o tempo total estimado. Útil para simular diferentes ritmos antes de uma prova.</p>
-          <p className="text-zinc-500">Exemplo: 10 km a 5:30/km → tempo final de 55:00.</p>
+          <p className="text-faint">Exemplo: 10 km a 5:30/km → tempo final de 55:00.</p>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-semibold text-zinc-300 uppercase tracking-widest">Calcular Pace Médio</span>
+          <span className="text-[11px] font-medium text-content uppercase tracking-[0.06em]">Calcular Pace Médio</span>
           <p>Informe a distância percorrida e o tempo que você levou. A calculadora retorna o seu pace médio. Ideal para analisar treinos e provas já realizados.</p>
-          <p className="text-zinc-500">Exemplo: 10 km em 52:00 → pace médio de 5:12/km.</p>
+          <p className="text-faint">Exemplo: 10 km em 52:00 → pace médio de 5:12/km.</p>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-semibold text-zinc-300 uppercase tracking-widest">Na prática</span>
+          <span className="text-[11px] font-medium text-content uppercase tracking-[0.06em]">Na prática</span>
           <p>Use antes de provas para definir qual pace te leva ao seu tempo objetivo. Use após treinos para comparar o ritmo real com o planejado.</p>
         </div>
       </InfoModal>

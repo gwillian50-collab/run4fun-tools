@@ -27,7 +27,6 @@ function calculateSplits(
   const partial = Math.round((distanceKm - fullKms) * 1000) / 1000;
   const totalSegments = fullKms + (partial > 0.001 ? 1 : 0);
 
-  // First pass: raw paces via linear interpolation
   const raw: { pace: number; seg: number }[] = [];
   for (let i = 0; i < totalSegments; i++) {
     const isLast = i === totalSegments - 1;
@@ -37,7 +36,6 @@ function calculateSplits(
     raw.push({ pace: avgPace * multiplier, seg });
   }
 
-  // Normalize so sum(pace * seg) = targetSeconds exactly
   const rawTotal = raw.reduce((s, { pace, seg }) => s + pace * seg, 0);
   const scale = targetSeconds / rawTotal;
 
@@ -62,7 +60,6 @@ function calculateSplits(
 }
 
 function formatKmLabel(km: number): string {
-  if (Number.isInteger(km)) return `${km} km`;
   return `${km} km`;
 }
 
@@ -81,52 +78,37 @@ export function RacePlanner({ action }: { action?: ReactNode }) {
     return !isNaN(m) && m > 0 ? m / 1000 : null;
   }, [selectedDist, customKm]);
 
-  const targetSeconds = parseTime(time);
+  const targetSeconds = useMemo(() => {
+    if (!time || time.split(":").length < 3) return null;
+    return parseTime(time);
+  }, [time]);
 
   const splits = useMemo(
-    () =>
-      distanceKm && targetSeconds
-        ? calculateSplits(distanceKm, targetSeconds, variation)
-        : [],
+    () => (distanceKm && targetSeconds ? calculateSplits(distanceKm, targetSeconds, variation) : []),
     [distanceKm, targetSeconds, variation]
   );
 
-  const avgPace =
-    distanceKm && targetSeconds
-      ? Math.round(targetSeconds / distanceKm)
-      : null;
-
+  const avgPace = distanceKm && targetSeconds ? Math.round(targetSeconds / distanceKm) : null;
   const firstPace = splits.length > 0 ? splits[0].pace : null;
   const lastPace = splits.length > 0 ? splits[splits.length - 1].pace : null;
 
-  const strategyLabel =
-    variation < -2 ? "Negativa" : variation > 2 ? "Positiva" : "Uniforme";
-  const strategyColor =
-    variation < -2
-      ? "text-green-400"
-      : variation > 2
-      ? "text-red-400"
-      : "text-zinc-300";
+  const strategyLabel = variation < -2 ? "Negativa" : variation > 2 ? "Positiva" : "Uniforme";
+  const strategyColor = variation < -2 ? "text-success" : variation > 2 ? "text-danger" : "text-muted";
 
   return (
-    <ToolCard title="Planejador de Prova" icon="📋" action={action}>
+    <ToolCard title="Planejador de Prova" action={action}>
       <InputGroup label="Distância">
-        <div>
-          <div className="text-xs text-zinc-500 text-center mb-1">Prova</div>
-          <select
-            className={selectClass}
-            value={selectedDist}
-            onChange={(e) => setSelectedDist(e.target.value)}
-          >
-            <option value="">Selecionar...</option>
-            {RACE_DISTANCES.map((d) => (
-              <option key={d.label} value={String(d.meters)}>
-                {d.label}
-              </option>
-            ))}
-            <option value="custom">Personalizada (km)</option>
-          </select>
-        </div>
+        <select
+          className={selectClass}
+          value={selectedDist}
+          onChange={(e) => setSelectedDist(e.target.value)}
+        >
+          <option value="">Selecionar...</option>
+          {RACE_DISTANCES.map((d) => (
+            <option key={d.label} value={String(d.meters)}>{d.label}</option>
+          ))}
+          <option value="custom">Personalizada (km)</option>
+        </select>
         {selectedDist === "custom" && (
           <input
             className={inputClass + " mt-2"}
@@ -143,28 +125,34 @@ export function RacePlanner({ action }: { action?: ReactNode }) {
 
       {distanceKm && targetSeconds && (
         <>
-          <div className="rounded-2xl border border-white/15 bg-white/5 px-4 py-4 flex flex-col gap-3">
+          {/* Result card */}
+          <div className="rounded-xl border border-rim-strong bg-raised px-4 py-4 flex flex-col gap-3">
             <div className="flex items-start justify-between">
               <div>
-                <div className="text-xs text-zinc-500 uppercase tracking-wider mb-0.5">Pace médio</div>
-                <div className="text-3xl font-black tabular-nums text-white leading-none">
-                  {avgPace ? formatPace(avgPace) : "—"}
-                  <span className="text-sm font-normal text-zinc-400 ml-1">/km</span>
+                <div className="text-[10px] font-medium text-muted uppercase tracking-[0.08em] mb-1">Pace médio</div>
+                <div className="leading-none flex items-baseline gap-1">
+                  <span className="font-mono font-medium tabular-nums text-accent" style={{ fontSize: "30px", letterSpacing: "-0.02em" }}>
+                    {avgPace ? formatPace(avgPace) : "—"}
+                  </span>
+                  <span className="text-[12px] text-muted">/km</span>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-xs text-zinc-500 uppercase tracking-wider mb-0.5">Tempo total</div>
-                <div className="text-xl font-bold tabular-nums text-white">{formatTime(targetSeconds)}</div>
+                <div className="text-[10px] font-medium text-muted uppercase tracking-[0.08em] mb-1">Total</div>
+                <div className="text-[20px] font-medium font-mono tabular-nums text-content leading-none" style={{ letterSpacing: "-0.01em" }}>
+                  {formatTime(targetSeconds)}
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className={`text-xs font-bold uppercase tracking-wider ${strategyColor}`}>{strategyLabel}</span>
-              <span className="text-xs text-zinc-600">
+            <div className="flex items-center gap-2 border-t border-rim pt-2.5">
+              <span className={`text-[10px] font-medium uppercase tracking-[0.08em] ${strategyColor}`}>{strategyLabel}</span>
+              <span className="text-[11px] text-faint">
                 {variation < -2 ? "segunda metade mais rápida" : variation > 2 ? "segunda metade mais lenta" : "ritmo constante"}
               </span>
             </div>
           </div>
 
+          {/* Slider */}
           <div className="flex flex-col gap-2">
             <input
               type="range"
@@ -173,68 +161,49 @@ export function RacePlanner({ action }: { action?: ReactNode }) {
               step={1}
               value={variation}
               onChange={(e) => setVariation(Number(e.target.value))}
-              className="w-full accent-white cursor-pointer"
+              className="w-full cursor-pointer"
             />
-            <div className="flex justify-between text-xs tabular-nums text-zinc-400">
+            <div className="flex justify-between text-[11px] tabular-nums text-faint font-mono">
               <span>
                 1º km:{" "}
-                <span className="text-zinc-200 font-semibold">
+                <span className="text-muted font-medium">
                   {firstPace ? formatPace(firstPace) : "--"}/km
                 </span>
               </span>
-              {avgPace && (
-                <span>
-                  Médio:{" "}
-                  <span className="text-zinc-200 font-semibold">
-                    {formatPace(avgPace)}/km
-                  </span>
-                </span>
-              )}
               <span>
                 Último:{" "}
-                <span className="text-zinc-200 font-semibold">
+                <span className="text-muted font-medium">
                   {lastPace ? formatPace(lastPace) : "--"}/km
                 </span>
               </span>
             </div>
           </div>
 
+          {/* Splits table */}
           {splits.length > 0 && (
-            <div className="flex flex-col gap-1">
-              <div className="grid grid-cols-3 px-3 pb-1">
-                <span className="text-xs text-zinc-600">Km</span>
-                <span className="text-xs text-zinc-600 text-center">Pace</span>
-                <span className="text-xs text-zinc-600 text-right">
-                  Acumulado
-                </span>
+            <div className="flex flex-col">
+              <div className="grid grid-cols-3 px-3 pb-2">
+                <span className="text-[10px] font-medium text-faint uppercase tracking-[0.06em]">Km</span>
+                <span className="text-[10px] font-medium text-faint uppercase tracking-[0.06em] text-center">Pace</span>
+                <span className="text-[10px] font-medium text-faint uppercase tracking-[0.06em] text-right">Acumulado</span>
               </div>
-              <div className="flex flex-col gap-0.5">
+              <div className="flex flex-col">
                 {splits.map((s) => {
                   const highlight = s.isCheckpoint || s.isFinish;
                   return (
                     <div
                       key={s.km}
-                      className={`grid grid-cols-3 items-center rounded-xl px-3 py-2 ${
-                        highlight
-                          ? "bg-white/10 border border-white/20"
-                          : "bg-zinc-800/60"
+                      className={`grid grid-cols-3 items-center px-3 py-2 rounded-md ${
+                        highlight ? "bg-raised border border-rim-strong my-0.5" : ""
                       }`}
                     >
-                      <span
-                        className={`text-xs ${
-                          highlight
-                            ? "text-white font-semibold"
-                            : "text-zinc-400"
-                        }`}
-                      >
-                        {s.isFinish && !Number.isInteger(s.km)
-                          ? "Chegada"
-                          : formatKmLabel(s.km)}
+                      <span className={`${highlight ? "text-[13px] font-medium text-content" : "text-[11px] text-faint"}`}>
+                        {s.isFinish && !Number.isInteger(s.km) ? "Chegada" : formatKmLabel(s.km)}
                       </span>
-                      <span className="text-sm font-bold tabular-nums text-white text-center">
+                      <span className={`font-mono tabular-nums text-center ${highlight ? "text-[15px] font-medium text-accent" : "text-[13px] text-muted"}`}>
                         {formatPace(s.pace)}/km
                       </span>
-                      <span className="text-xs tabular-nums text-zinc-300 text-right">
+                      <span className={`font-mono tabular-nums text-right ${highlight ? "text-[13px] text-muted" : "text-[11px] text-faint"}`}>
                         {formatTime(s.cumTime)}
                       </span>
                     </div>

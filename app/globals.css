@@ -1,23 +1,68 @@
 @import "tailwindcss";
 
+@theme {
+  /* Accent — amarelo-limão atlético, um só, usado com parcimônia */
+  --color-accent: #e8f020;
+  --color-accent-dim: rgba(232, 240, 32, 0.08);
+  --color-accent-border: rgba(232, 240, 32, 0.22);
+
+  /* Backgrounds — nunca preto/branco puros */
+  --color-base: #0f0f0f;
+  --color-surface: #181818;
+  --color-raised: #222222;
+  --color-subtle: #2a2a2a;
+
+  /* Texto */
+  --color-content: #f0f0ee;
+  --color-muted: #888884;
+  --color-faint: #4a4a48;
+
+  /* Bordas */
+  --color-rim: rgba(255, 255, 255, 0.08);
+  --color-rim-strong: rgba(255, 255, 255, 0.14);
+
+  /* Feedback semântico */
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+
+  /* Tipografia mono — aplicada em todos os números de resultado */
+  --font-mono: var(--font-jetbrains, 'JetBrains Mono', ui-monospace, monospace);
+}
+
 :root {
   color-scheme: dark;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 body {
-  background: #000000;
-  color: #ffffff;
+  background: var(--color-base);
+  color: var(--color-content);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
+/* Spin buttons */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+/* Range slider */
+input[type="range"]::-webkit-slider-thumb {
+  background: var(--color-accent);
+}
+input[type="range"] {
+  accent-color: var(--color-accent);
 }
 
 .picker-scroll::-webkit-scrollbar {
