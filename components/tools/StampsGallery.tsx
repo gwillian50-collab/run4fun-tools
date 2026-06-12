@@ -3,18 +3,6 @@ import { useState, useCallback } from "react";
 
 const STAMPS = {
   preto: [
-    { file: "foryoudireita.png" },
-    { file: "foryouesquerda.png" },
-    { file: "foryoumeio.png" },
-    { file: "logopreto.png" },
-    { file: "r4fpreto.png" },
-    { file: "run4funpreto.png" },
-    { file: "runningclubdireita.png" },
-    { file: "runningclubesquerda.png" },
-    { file: "runningclubmeio.png" },
-    { file: "simplespreto.png" },
-  ],
-  branco: [
     { file: "foryoudireitabranco.png" },
     { file: "logobranco.png" },
     { file: "r4fbranco.png" },
@@ -26,11 +14,23 @@ const STAMPS = {
     { file: "runningclubmeiobranco.png" },
     { file: "kippinho.png" },
   ],
+  branco: [
+    { file: "foryoudireita.png" },
+    { file: "foryouesquerda.png" },
+    { file: "foryoumeio.png" },
+    { file: "logopreto.png" },
+    { file: "r4fpreto.png" },
+    { file: "run4funpreto.png" },
+    { file: "runningclubdireita.png" },
+    { file: "runningclubesquerda.png" },
+    { file: "runningclubmeio.png" },
+    { file: "simplespreto.png" },
+  ],
 };
 
 const FOLDER: Record<"preto" | "branco", string> = {
-  preto: "fundobranco",
-  branco: "fundopreto",
+  preto: "fundopreto",
+  branco: "fundobranco",
 };
 
 export function StampsGallery() {
@@ -92,7 +92,7 @@ export function StampsGallery() {
             >
               <div
                 className={`w-full aspect-square rounded-xl flex items-center justify-center p-4 ${
-                  isPreto ? "bg-white" : "bg-black border border-zinc-800"
+                  isPreto ? "bg-black border border-zinc-800" : "bg-white"
                 }`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
