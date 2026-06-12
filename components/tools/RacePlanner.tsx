@@ -143,12 +143,29 @@ export function RacePlanner({ action }: { action?: ReactNode }) {
 
       {distanceKm && targetSeconds && (
         <>
-          <div className="flex flex-col gap-2">
-            <div className="flex justify-center">
-              <span className={`text-xs font-semibold ${strategyColor}`}>
-                {strategyLabel}
+          <div className="rounded-2xl border border-white/15 bg-white/5 px-4 py-4 flex flex-col gap-3">
+            <div className="flex items-start justify-between">
+              <div>
+                <div className="text-xs text-zinc-500 uppercase tracking-wider mb-0.5">Pace médio</div>
+                <div className="text-3xl font-black tabular-nums text-white leading-none">
+                  {avgPace ? formatPace(avgPace) : "—"}
+                  <span className="text-sm font-normal text-zinc-400 ml-1">/km</span>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-xs text-zinc-500 uppercase tracking-wider mb-0.5">Tempo total</div>
+                <div className="text-xl font-bold tabular-nums text-white">{formatTime(targetSeconds)}</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className={`text-xs font-bold uppercase tracking-wider ${strategyColor}`}>{strategyLabel}</span>
+              <span className="text-xs text-zinc-600">
+                {variation < -2 ? "segunda metade mais rápida" : variation > 2 ? "segunda metade mais lenta" : "ritmo constante"}
               </span>
             </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
             <input
               type="range"
               min={-25}
