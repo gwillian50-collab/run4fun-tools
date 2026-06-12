@@ -2,6 +2,7 @@
 import { useMemo, type ReactNode } from "react";
 import { useLocalStorage } from "@/lib/useLocalStorage";
 import { ToolCard } from "../ui/ToolCard";
+import { TabButton } from "../ui/TabButton";
 import { InputGroup } from "../ui/Result";
 import { TimePickerInput, selectClass } from "../ui/TimePickerInput";
 import { parseTime, formatPace } from "@/lib/calculators/pace";
@@ -59,18 +60,8 @@ export function VDOTCalculator({ action }: { action?: ReactNode }) {
         </div>
 
         <div className="flex gap-2">
-          <button
-            onClick={() => setTab("equiv")}
-            className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${tab === "equiv" ? "bg-white text-zinc-900" : "bg-zinc-800 text-zinc-400"}`}
-          >
-            Equivalências
-          </button>
-          <button
-            onClick={() => setTab("paces")}
-            className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-colors ${tab === "paces" ? "bg-white text-zinc-900" : "bg-zinc-800 text-zinc-400"}`}
-          >
-            Ritmos de Treino
-          </button>
+          <TabButton label="Equivalências" active={tab === "equiv"} onClick={() => setTab("equiv")} />
+          <TabButton label="Ritmos de Treino" active={tab === "paces"} onClick={() => setTab("paces")} />
         </div>
 
         {tab === "equiv" && (

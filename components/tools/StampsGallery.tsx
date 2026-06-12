@@ -1,5 +1,7 @@
 "use client";
 import { useState, useCallback } from "react";
+import { useLocalStorage } from "@/lib/useLocalStorage";
+import { TabButton } from "../ui/TabButton";
 
 const STAMPS = {
   preto: [
@@ -34,7 +36,7 @@ const FOLDER: Record<"preto" | "branco", string> = {
 };
 
 export function StampsGallery() {
-  const [tab, setTab] = useState<"preto" | "branco">("preto");
+  const [tab, setTab] = useLocalStorage<"preto" | "branco">("r4f_stamps_tab", "preto");
   const [copied, setCopied] = useState<string | null>(null);
 
   const handleCopy = useCallback(async (folder: string, file: string) => {
@@ -58,22 +60,8 @@ export function StampsGallery() {
       <div className="flex items-center justify-between">
         <span className="text-sm font-semibold text-zinc-300 uppercase tracking-widest">Share</span>
         <div className="flex gap-2">
-          <button
-            onClick={() => setTab("preto")}
-            className={`px-4 py-1.5 rounded-xl text-sm font-semibold transition-colors ${
-              tab === "preto" ? "bg-white text-zinc-900" : "bg-zinc-800 text-zinc-400"
-            }`}
-          >
-            Preto
-          </button>
-          <button
-            onClick={() => setTab("branco")}
-            className={`px-4 py-1.5 rounded-xl text-sm font-semibold transition-colors ${
-              tab === "branco" ? "bg-white text-zinc-900" : "bg-zinc-800 text-zinc-400"
-            }`}
-          >
-            Branco
-          </button>
+          <TabButton label="Preto" active={tab === "preto"} onClick={() => setTab("preto")} />
+          <TabButton label="Branco" active={tab === "branco"} onClick={() => setTab("branco")} />
         </div>
       </div>
 
@@ -85,9 +73,7 @@ export function StampsGallery() {
               key={file}
               onClick={() => handleCopy(folder, file)}
               className={`rounded-2xl p-3 border transition-all active:scale-95 ${
-                isCopied
-                  ? "border-green-500 bg-green-500/10"
-                  : "border-zinc-800 bg-zinc-900 hover:border-zinc-600"
+                isCopied ? "border-green-500 bg-green-500/10" : "border-zinc-800 bg-zinc-900 hover:border-zinc-600"
               }`}
             >
               <div
@@ -103,9 +89,7 @@ export function StampsGallery() {
                 />
               </div>
               {isCopied && (
-                <span className="block text-xs font-medium text-center text-green-400 mt-2">
-                  Copiado!
-                </span>
+                <span className="block text-xs font-medium text-center text-green-400 mt-2">Copiado!</span>
               )}
             </button>
           );

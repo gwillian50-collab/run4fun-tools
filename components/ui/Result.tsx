@@ -9,7 +9,7 @@ export function Result({ label, value, unit, highlight = false }: ResultProps) {
   return (
     <div className={`flex items-baseline justify-between py-2 px-3 rounded-xl ${highlight ? "bg-white/10 border border-white/20" : "bg-zinc-800/60"}`}>
       <span className="text-xs text-zinc-400">{label}</span>
-      <span className={`text-xl font-bold tabular-nums ${highlight ? "text-white" : "text-white"}`}>
+      <span className="text-xl font-bold tabular-nums text-white">
         {value}
         {unit && <span className="text-sm font-normal text-zinc-400 ml-1">{unit}</span>}
       </span>
