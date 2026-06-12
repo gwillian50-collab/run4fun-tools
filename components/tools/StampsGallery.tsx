@@ -1,32 +1,31 @@
 "use client";
 import { useState, useCallback } from "react";
 import { useLocalStorage } from "@/lib/useLocalStorage";
-import { TabButton } from "../ui/TabButton";
 
 const STAMPS = {
   preto: [
-    { file: "foryoudireitabranco.png" },
-    { file: "logobranco.png" },
-    { file: "r4fbranco.png" },
-    { file: "run4funbranco.png" },
-    { file: "runforyoudireitabranco.png" },
-    { file: "runforyoumeio branco.png" },
-    { file: "runningclubdireitabranco.png" },
-    { file: "runningclubesquerdabranco.png" },
-    { file: "runningclubmeiobranco.png" },
-    { file: "kippinho.png" },
+    { file: "1logobranco.png" },
+    { file: "2kippinho.png" },
+    { file: "3run4funbranco.png" },
+    { file: "4r4fbranco.png" },
+    { file: "5runningclubesquerdabranco.png" },
+    { file: "6runningclubmeiobranco.png" },
+    { file: "7runningclubdireitabranco.png" },
+    { file: "8foryoudireitabranco.png" },
+    { file: "9runforyoumeio branco.png" },
+    { file: "10runforyoudireitabranco.png" },
   ],
   branco: [
-    { file: "foryoudireita.png" },
-    { file: "foryouesquerda.png" },
-    { file: "foryoumeio.png" },
-    { file: "logopreto.png" },
-    { file: "r4fpreto.png" },
-    { file: "run4funpreto.png" },
-    { file: "runningclubdireita.png" },
-    { file: "runningclubesquerda.png" },
-    { file: "runningclubmeio.png" },
-    { file: "simplespreto.png" },
+    { file: "1logopreto.png" },
+    { file: "2simplespreto.png" },
+    { file: "3r4fpreto.png" },
+    { file: "4run4funpreto.png" },
+    { file: "5foryouesquerda.png" },
+    { file: "6foryoumeio.png" },
+    { file: "7foryoudireita.png" },
+    { file: "8runningclubesquerda.png" },
+    { file: "9runningclubmeio.png" },
+    { file: "10runningclubdireita.png" },
   ],
 };
 
@@ -58,11 +57,25 @@ export function StampsGallery() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <span className="text-sm font-semibold text-zinc-300 uppercase tracking-widest">Share</span>
-        <div className="flex gap-2">
-          <TabButton label="Preto" active={tab === "preto"} onClick={() => setTab("preto")} />
-          <TabButton label="Branco" active={tab === "branco"} onClick={() => setTab("branco")} />
+        <div>
+          <span className="text-sm font-semibold text-zinc-300 uppercase tracking-widest">Share</span>
+          <p className="text-xs text-zinc-500 mt-0.5">basta clicar para copiar</p>
         </div>
+
+        <button
+          onClick={() => setTab(isPreto ? "branco" : "preto")}
+          className="relative flex items-center w-14 h-7 rounded-full border border-zinc-600 transition-colors duration-300 overflow-hidden focus:outline-none"
+          style={{ background: isPreto ? "#000000" : "#ffffff" }}
+          aria-label={isPreto ? "Mudar para fundo branco" : "Mudar para fundo preto"}
+        >
+          <span
+            className={`absolute w-5 h-5 rounded-full shadow transition-all duration-300 ${
+              isPreto
+                ? "left-1 bg-white"
+                : "left-8 bg-black"
+            }`}
+          />
+        </button>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
