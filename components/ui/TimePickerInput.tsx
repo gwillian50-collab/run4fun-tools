@@ -1,24 +1,69 @@
 "use client";
+import { useState, useEffect, useCallback, type KeyboardEvent, type ChangeEvent } from "react";
 
-const HOURS = Array.from({ length: 10 }, (_, i) => i);
-const MINS  = Array.from({ length: 60 }, (_, i) => i);
-const SECS  = Array.from({ length: 60 }, (_, i) => i);
+export const selectClass =
+  "w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-3 text-white focus:border-white outline-none appearance-none text-center text-sm font-bold tabular-nums";
 
-function pad(n: number) {
-  return String(n).padStart(2, "0");
+const inputCls =
+  "w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-3 text-white focus:border-white outline-none text-center text-sm font-bold tabular-nums placeholder-zinc-600";
+
+function onlyDigits(s: string): string {
+  return s.replace(/\D/g, "");
 }
 
-function parseValue(value: string, mode: "pace" | "duration"): { h: number; m: number; s: number } {
-  if (!value) return { h: 0, m: 0, s: 0 };
-  const parts = value.split(":").map(Number);
-  if (mode === "pace") return { h: 0, m: parts[0] ?? 0, s: parts[1] ?? 0 };
-  if (parts.length === 3) return { h: parts[0], m: parts[1], s: parts[2] };
-  return { h: 0, m: parts[0] ?? 0, s: parts[1] ?? 0 };
+function clampDigits(d: string, mode: "pace" | "duration"): string {
+  if (mode === "pace") {
+    if (d.length >= 3) {
+      const s = parseInt(d.slice(-2), 10);
+      if (s > 59) return d.slice(0, -2) + "59";
+    }
+    return d;
+  }
+  let r = d;
+  if (r.length >= 3) {
+    const m = parseInt(r.slice(1, 3), 10);
+    if (m > 59) r = r[0] + "59" + r.slice(3);
+  }
+  if (r.length >= 5) {
+    const s = parseInt(r.slice(3, 5), 10);
+    if (s > 59) r = r.slice(0, 3) + "59";
+  }
+  return r;
 }
 
-function formatValue(h: number, m: number, s: number, mode: "pace" | "duration"): string {
-  if (mode === "pace") return `${m}:${pad(s)}`;
-  return h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${m}:${pad(s)}`;
+// pace: last 2 digits = seconds, rest = minutes  →  "5:30", "15:30"
+// duration: H:MM:SS (5 digits max)               →  "1:30:00", "0:45:00"
+function formatDigits(d: string, mode: "pace" | "duration"): string {
+  if (!d) return "";
+  if (mode === "pace") {
+    if (d.length <= 2) return d;
+    return d.slice(0, d.length - 2) + ":" + d.slice(-2);
+  }
+  if (d.length === 1) return d;
+  if (d.length === 2) return d[0] + ":" + d[1];
+  if (d.length === 3) return d[0] + ":" + d.slice(1);
+  if (d.length === 4) return d[0] + ":" + d.slice(1, 3) + ":" + d[3];
+  return d[0] + ":" + d.slice(1, 3) + ":" + d.slice(3);
+}
+
+function valueToDigits(value: string, mode: "pace" | "duration"): string {
+  if (!value) return "";
+  if (mode === "pace") return onlyDigits(value).slice(0, 4);
+  const parts = value.split(":");
+  // Legacy "MM:SS" (2-part, h=0) → prepend "0" for hours
+  if (parts.length === 2) {
+    const mm = (parts[0] || "0").padStart(2, "0");
+    const ss = (parts[1] || "0").padStart(2, "0");
+    return ("0" + mm + ss).slice(0, 5);
+  }
+  return onlyDigits(value).slice(0, 5);
+}
+
+// Only emit when the entry is unambiguously parseable
+function toOutput(d: string, mode: "pace" | "duration"): string {
+  const min = mode === "pace" ? 3 : 5;
+  if (d.length < min) return "";
+  return formatDigits(d, mode);
 }
 
 export interface TimePickerInputProps {
@@ -28,44 +73,63 @@ export interface TimePickerInputProps {
   className?: string;
 }
 
-export const selectClass =
-  "w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-3 text-white focus:border-white outline-none appearance-none text-center text-sm font-bold tabular-nums";
-
 export function TimePickerInput({
   value,
   onChange,
   mode = "pace",
   className = "",
 }: TimePickerInputProps) {
-  const { h, m, s } = parseValue(value, mode);
+  const maxD = mode === "pace" ? 4 : 5;
+  const placeholder = mode === "pace" ? "0:00" : "0:00:00";
 
-  function emit(field: "h" | "m" | "s", val: number) {
-    const next = { h, m, s, [field]: val };
-    onChange(formatValue(next.h, next.m, next.s, mode));
-  }
+  const [digits, setDigits] = useState(() => valueToDigits(value, mode));
+
+  // Sync from parent only for non-empty values to avoid clearing mid-entry
+  useEffect(() => {
+    if (!value) return;
+    const d = valueToDigits(value, mode);
+    setDigits(d);
+  }, [value, mode]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const commit = useCallback(
+    (raw: string) => {
+      const c = clampDigits(raw.slice(0, maxD), mode);
+      setDigits(c);
+      onChange(toOutput(c, mode));
+    },
+    [mode, maxD, onChange]
+  );
+
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      commit(onlyDigits(e.target.value));
+    },
+    [commit]
+  );
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Backspace") {
+        e.preventDefault();
+        commit(digits.slice(0, -1));
+      }
+    },
+    [digits, commit]
+  );
 
   return (
-    <div className={`grid gap-2 ${mode === "duration" ? "grid-cols-3" : "grid-cols-2"} ${className}`}>
-      {mode === "duration" && (
-        <div>
-          <div className="text-xs text-zinc-500 text-center mb-1">Horas</div>
-          <select className={selectClass} value={h} onChange={(e) => emit("h", Number(e.target.value))}>
-            {HOURS.map((i) => <option key={i} value={i}>{pad(i)}</option>)}
-          </select>
-        </div>
-      )}
-      <div>
-        <div className="text-xs text-zinc-500 text-center mb-1">Minutos</div>
-        <select className={selectClass} value={m} onChange={(e) => emit("m", Number(e.target.value))}>
-          {MINS.map((i) => <option key={i} value={i}>{pad(i)}</option>)}
-        </select>
-      </div>
-      <div>
-        <div className="text-xs text-zinc-500 text-center mb-1">Segundos</div>
-        <select className={selectClass} value={s} onChange={(e) => emit("s", Number(e.target.value))}>
-          {SECS.map((i) => <option key={i} value={i}>{pad(i)}</option>)}
-        </select>
-      </div>
+    <div className={className}>
+      <input
+        type="text"
+        inputMode="numeric"
+        autoComplete="off"
+        value={formatDigits(digits, mode)}
+        placeholder={placeholder}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        className={inputCls}
+        aria-label={mode === "pace" ? "Pace min:seg/km" : "Duração hh:mm:ss"}
+      />
     </div>
   );
 }
