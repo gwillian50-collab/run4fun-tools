@@ -1,5 +1,5 @@
 "use client";
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { useLocalStorage } from "@/lib/useLocalStorage";
 import { ToolCard } from "../ui/ToolCard";
 import { InputGroup } from "../ui/Result";
@@ -8,7 +8,7 @@ import { parseTime, formatPace } from "@/lib/calculators/pace";
 import { calculateVDOT, getTrainingPaces } from "@/lib/calculators/vdot";
 import { calculateEquivalents, RACE_DISTANCES } from "@/lib/calculators/tools";
 
-export function VDOTCalculator() {
+export function VDOTCalculator({ action }: { action?: ReactNode }) {
   const [distance, setDistance] = useLocalStorage("r4f_vdot_distance", "");
   const [time, setTime] = useLocalStorage("r4f_vdot_time", "");
   const [tab, setTab] = useLocalStorage<"equiv" | "paces">("r4f_vdot_tab", "equiv");
@@ -28,7 +28,7 @@ export function VDOTCalculator() {
   const paces = useMemo(() => getTrainingPaces(displayVdot), [displayVdot]);
 
   return (
-    <ToolCard title="VDOT & Treinos" icon="📊">
+    <ToolCard title="VDOT & Treinos" icon="📊" action={action}>
       <InputGroup label="Distância">
         <div>
           <div className="text-xs text-zinc-500 text-center mb-1">Prova</div>

@@ -1,5 +1,5 @@
 "use client";
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { ToolCard } from "../ui/ToolCard";
 import { InputGroup, inputClass } from "../ui/Result";
 import { TimePickerInput, selectClass } from "../ui/TimePickerInput";
@@ -66,7 +66,7 @@ function formatKmLabel(km: number): string {
   return `${km} km`;
 }
 
-export function RacePlanner() {
+export function RacePlanner({ action }: { action?: ReactNode }) {
   const [selectedDist, setSelectedDist] = useLocalStorage("r4f_plan_dist", "");
   const [customKm, setCustomKm] = useLocalStorage("r4f_plan_custom", "");
   const [time, setTime] = useLocalStorage("r4f_plan_time", "");
@@ -109,7 +109,7 @@ export function RacePlanner() {
       : "text-zinc-300";
 
   return (
-    <ToolCard title="Planejador de Prova" icon="📋">
+    <ToolCard title="Planejador de Prova" icon="📋" action={action}>
       <InputGroup label="Distância">
         <div>
           <div className="text-xs text-zinc-500 text-center mb-1">Prova</div>
