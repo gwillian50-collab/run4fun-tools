@@ -82,6 +82,18 @@ export default function ProvaPage() {
           </div>
         </details>
       </div>
+      <a
+        href="https://run4fun-coach.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-between rounded-2xl border border-zinc-800 bg-zinc-900 hover:border-zinc-600 active:scale-95 transition-all px-4 py-4"
+      >
+        <div className="flex flex-col gap-0.5">
+          <span className="text-sm font-semibold text-white">Se prepare para sua prova</span>
+          <span className="text-xs text-zinc-500">Monte seu plano de treinos personalizado</span>
+        </div>
+        <span className="text-zinc-400 text-lg">→</span>
+      </a>
     </div>
   );
 }
