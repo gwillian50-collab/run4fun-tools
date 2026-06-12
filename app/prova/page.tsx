@@ -10,6 +10,9 @@ export default function ProvaPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 pt-5 flex flex-col gap-4 pb-24">
+      <p className="text-sm text-zinc-500 leading-relaxed px-1">
+        Escolha a distância e seu tempo objetivo para gerar os splits de cada quilômetro. Use o slider para simular estratégias de ritmo negativo, uniforme ou positivo.
+      </p>
       <RacePlanner action={<InfoButton onClick={open} label="Por que planejar a prova?" />} />
 
       <ExpandableSection title="Por que planejar a prova?" detailsRef={ref}>

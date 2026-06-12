@@ -10,6 +10,9 @@ export default function VDOTPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 pt-5 flex flex-col gap-4 pb-24">
+      <p className="text-sm text-zinc-500 leading-relaxed px-1">
+        Informe sua distância e tempo em uma prova recente para calcular seu VDOT e ver seus ritmos de treino ideais.
+      </p>
       <VDOTCalculator action={<InfoButton onClick={open} label="O que é o VDOT?" />} />
 
       <ExpandableSection title="O que é o VDOT?" detailsRef={ref}>
